@@ -1,0 +1,107 @@
+{{>_nav}}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {{>_settings}}
+        </div>
+        <div class="col-md-9">
+            <div class="row pt-3">
+                <div class="col-6 col-sm-6">
+                    <h1>Administradores</h1>
+                </div>
+                <div class="col-6 col-sm-6 text-right">
+                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#createdAdm">
+                        <i class="ri-user-add-line"></i> Adicionar
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <table class="table table-borderless table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome: </th>
+                        <th scope="col">e-mail: </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each admin}}
+                    <tr>
+                        <td class="pt-4 text-uppercase">{{name}}</td>
+                        <td class="pt-4">{{email}}</td>
+                        <td>
+                            <div class="text-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <i class="ri-settings-4-fill"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <span class="dropdown-item disabled">Ações</span>
+                                        <a href="/admin/user/update/{{id}}" class="dropdown-item" role="button">
+                                            Editar
+                                        </a>
+                                        <form class="p-0 m-0" action="/delete/admin" method="POST">
+                                            <input type="hidden" name="id" value="{{id}}">
+                                            <button type="submit" class="dropdown-item text-danger"
+                                                onclick="return confirm('Tem certeza que deseja deletar esse cadastro?');">
+                                                Deletar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {{else}}
+                    <div class="alert alert-danger w-100" role="alert">
+                        Nenhum cadastro encontrado.
+                    </div>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{>_footer}}
+</div>
+
+<!-- Adicionar Administrador -->
+<div class="modal fade" id="createdAdm" tabindex="-1" aria-labelledby="createdAdm" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createdAdm">Adicionar Administrador:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/create/admin">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name">Nome:</label>
+                        <input class="form-control" type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">E-mail:</label>
+                        <input class="form-control" type="email" name="email" required>
+                    </div>
+                     <div class="form-group">
+                        <label for="name">Senha:</label>
+                        <input class="form-control" type="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="filter">Filtro de sessão:</label>
+                        <select class="form-control" name="filter">
+                            <option value="3">Supremo</option>
+                            <option value="2">Normal</option>
+                            <option value="1">Simples</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-danger">Limpar</button>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+{{>_nav}}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {{>_settings}}
+        </div>
+        <div class="col-md-9">
+            <div class="row pt-3">
+                <div class="col-6 col-sm-6">
+                    <h1>Serviços</h1>
+                </div>
+                <div class="col-6 col-sm-6 text-right">
+                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#createServ">
+                        <i class="ri-user-add-line"></i> Adicionar
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <table class="table table-borderless table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome: </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each service}}
+                    <tr>
+                        <td class="pt-4 text-uppercase">{{name}}</td>
+                        <td>
+                            <div class="text-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <i class="ri-settings-4-fill"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <span class="dropdown-item disabled">Ações</span>
+                                        <a href="/admin/update/service/{{id}}" class="dropdown-item" role="button">
+                                            Editar
+                                        </a>
+                                        <form class="p-0 m-0" action="/delete/service" method="POST">
+                                            <input type="hidden" name="id" value="{{id}}">
+                                            <button type="submit" class="dropdown-item text-danger"
+                                                onclick="return confirm('Tem certeza que deseja deletar?');">
+                                                Deletar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {{else}}
+                    <div class="alert alert-danger w-100" role="alert">
+                        Nenhum cadastro encontrado.
+                    </div>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{>_footer}}
+</div>
+
+<!-- Adicionar serviço -->
+<div class="modal fade" id="createServ" tabindex="-1" aria-labelledby="createServ" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createServ">Adicionar Serviço:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/create/service">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="name">Nome:</label>
+                        <input class="form-control" type="text" name="name" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-danger">Limpar</button>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

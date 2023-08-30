@@ -1,0 +1,47 @@
+{{#if success_msg}}
+  <div
+    class="toast align-items-center text-white bg-success"
+    style="position: absolute; top: 10; right: 5;"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div class="d-flex">
+      <div class="toast-body">
+        {{success_msg}}
+      </div>
+      <button
+        type="button"
+        class="btn text-white"
+        data-dismiss="toast"
+        aria-label="Close"
+      >
+        <i class="ri-close-line"></i>
+      </button>
+    </div>
+  </div>
+{{/if}}
+
+{{#if error_msg}}
+  <div
+    class="toast align-items-center text-white bg-danger"
+    style="position: absolute; top: 10; right: 5;"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div class="d-flex">
+      <div class="toast-body">
+        {{error_msg}}
+      </div>
+      <button
+        type="button"
+        class="btn text-white"
+        data-dismiss="toast"
+        aria-label="Close"
+      >
+        <i class="ri-close-line"></i>
+      </button>
+    </div>
+  </div>
+{{/if}}

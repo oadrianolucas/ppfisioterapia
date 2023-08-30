@@ -1,0 +1,32 @@
+{{>_nav}}
+<div class="container col-6m">
+    <div class="col-md-8 offset-md-2">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/users">Cadastros</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Visualizar</li>
+            </ol>
+        </nav>
+        <div class="card-body border rounded">
+            <input type="hidden" value="{{user.id}}" name="id">
+            <dl>
+                <dt>Dados</dt>
+                <dd> Nome: {{user.name}}</dd>
+                <dd> Nascimento: {{user.birth}}</dd>
+                <dd> WhatsApp: {{user.phone}}</dd>
+                <hr>
+                <dt> Localidade</dt>
+                <dd> Cep: {{user.Address.zipcode}}</dd>
+                <dd> Endereço: {{user.Address.address}}</dd>
+                <dd> Bairro: {{user.Address.district}}</dd>
+                <dd> Cidade: {{user.Address.city}}</dd>
+                <dd> Estado: {{user.Address.state}}</dd>
+                <dd> Numero: {{user.Address.number}}</dd>
+                <hr>
+                <dt> Observações</dt>
+                <dd> {{user.note}}</dd>
+            </dl>
+        </div>
+    </div>
+    {{>_footer}}
+</div>

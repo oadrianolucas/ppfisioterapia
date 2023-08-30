@@ -1,0 +1,85 @@
+{{>_nav}}
+<div class="container col-6m">
+    <div class="col-md-8 offset-md-2">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/schedules">Agenda</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Adicionar</li>
+            </ol>
+        </nav>
+        <div class="card-body rounded border ">
+            <form method="POST" action="/create/schedule">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Campo Data -->
+                            <div class="form-group">
+                                <label for="name">Data:</label>
+                                <input class="form-control" type="date" name="date" placeholder="00/00/00" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Campo Horário -->
+                            <div class="form-group">
+                                <label for="name">Horário:</label>
+                                <input class="form-control" type="time" name="hours" required>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Campo Tipo -->
+                    <div class="form-group">
+                        <label for="service">Serviço:</label>
+                            <select class="form-control selectpicker text-uppercase" data-live-search="true" name="serviceId">
+                            <option>...</option>
+                            {{#each services}}
+                                <option value="{{id}}" class="text-uppercase">{{name}}</option>
+                            {{else}}
+                            <option>Nenhum cadastro encontrado.</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <!-- Campo Descrição -->
+                    <div class="form-group">
+                        <label>Descrição:</label>
+                        <textarea class="form-control" name="desc"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Campo Paciente -->
+                            <div class="form-group">
+                                <label>Paciente:</label>
+                                <select class="form-control selectpicker text-uppercase" data-live-search="true" name="userId">
+                                    <option>...</option>
+                                    {{#each users}}
+                                        <option value="{{id}}">{{name}}</option>
+                                    {{else}}
+                                        <option>Nenhum cadastro encontrado.</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Campo Fisioterapeuta -->
+                            <div class="form-group">
+                                <label>Fisioterapeuta:</label>
+                                <select class="form-control selectpicker text-uppercase" data-live-search="true" name="adminId">
+                                    <option>...</option>
+                                    {{#each admins}}
+                                        <option value="{{id}}">{{name}}</option>
+                                    {{else}}
+                                        <option>Nenhum cadastro encontrado.</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-danger">Limpar</button>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {{>_footer}}
+</div>

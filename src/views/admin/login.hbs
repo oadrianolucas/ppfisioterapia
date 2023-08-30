@@ -1,0 +1,28 @@
+<div class="container">
+    {{>_msg}}
+    <div class="col-md-4 offset-md-4">
+        <div class="text-center">
+            <img id="logo2" src="/assets/img/logo-black.svg" alt="Logo">
+        </div>
+        <div class="bg-white p-4 mb-4 rounded border">
+            <form action="/authenticate" method="POST">
+                <div class="form-group">
+                    <label for="login">Login</label>
+                    <input class="form-control" type="text" name="login" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <div class="input-group mb-3">
+                        <input class="form-control" type="password" name="password" id="passwordInput" required>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" id="toggleButton" type="button"><i class="ri-eye-line"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <button class="btn btn-primary" type="submit"> Entrar</button>
+            </form>
+        </div>
+        {{>_footer}}
+    </div>
+</div>

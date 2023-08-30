@@ -1,0 +1,87 @@
+{{>_nav}}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    Buscar
+                </div>
+                <div class="p-2">
+                    <form action="/admin/schedules/search">
+                        <div class="input-group mt-3">
+                            <input type="text" class="form-control"  data-mask="00/00/0000"
+                             placeholder="00/00/00" name="term">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="submit">
+                                    <i class="ri-search-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row pt-3">
+                <div class="col-6 col-sm-6">
+                    <h1>Agenda</h1>
+                </div>
+                <div class="col-6 col-sm-6 text-right">
+                    <a class="btn btn-sm btn-primary" href="/admin/create/schedule">
+                        <i class="ri-user-add-line"></i> Adicionar
+                    </a>
+                </div>
+            </div>
+            <hr>
+            <table class="table table-borderless table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Data: </th>
+                        <th scope="col">Horário: </th>
+                        <th scope="col">Paciente: </th>
+                        <th scope="col">Fisioterapeuta: </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each schedules}}
+                    <tr>
+                        <td class="pt-4 text-uppercase">{{date}}</td>
+                        <td class="pt-4 text-uppercase">{{hours}}</td>
+                        <td class="pt-4 text-uppercase">{{user}}</td>
+                        <td class="pt-4 text-uppercase">{{admin}}</td>
+                        <td>
+                            <div class="text-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <i class="ri-settings-4-fill"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <span class="dropdown-item disabled">Ações</span>
+                                        <a href="/admin/view/schedule/{{id}}" class="dropdown-item" role="button">
+                                            Visualizar
+                                        </a>
+                                        <form class="p-0 m-0" action="/delete/schedule" method="POST">
+                                            <input type="hidden" name="id" value="{{id}}">
+                                            <button type="submit" class="dropdown-item text-danger"
+                                                onclick="return confirm('Tem certeza que deseja deletar?');">
+                                                Deletar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {{else}}
+                    <div class="alert alert-danger w-100" role="alert">
+                        Nenhum cadastro encontrado.
+                    </div>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{>_footer}}
+</div>
+

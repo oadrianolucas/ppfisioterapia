@@ -1,0 +1,43 @@
+{{>_nav}}
+<div class="container col-6m">
+    <div class="col-md-6 offset-md-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/settings">Configurações</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Adicionar</li>
+            </ol>
+        </nav>
+        <div class="card-body border rounded">
+            <h4>Editar usuário:</h4>
+            <form action="/update/user" method="POST">
+                <input type="hidden" value="{{user.id}}" name="id">
+                <div class="form-group">
+                    <label for="name">Nome:</label>
+                    <input class="form-control" type="text" name="name" value="{{user.name}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail:</label>
+                    <input class="form-control" type="text" name="email" value="{{user.email}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="login">Login:</label>
+                    <input class="form-control" type="text" name="login" value="{{user.login}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senhas:</label>
+                    <input class="form-control" type="text" name="password" placeholder="******" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin">Filtro de sessão:</label>
+                    <select class="form-control" name="admin">
+                        <option value="3">Supremo</option>
+                        <option value="2">Normal</option>
+                        <option value="1">Simples</option>
+                    </select>
+                </div>
+                <button class="btn btn-sm btn-warning" type="submit"><i class="ri-edit-line"></i> Editar</button>
+            </form>
+        </div>
+    </div>
+    {{>_footer}}
+</div>

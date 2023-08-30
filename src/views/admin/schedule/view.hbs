@@ -1,0 +1,122 @@
+{{>_nav}}
+<div class="container col-6m">
+    <div class="col-md-8 offset-md-2">
+        
+        <div class="row mb-3">
+            <div class="col-md-9">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb p-2 pl-2">
+                        <li class="breadcrumb-item"><a href="/admin/schedules">Agenda</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Visualizar</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-md-3 text-right">
+                <button class="btn d-block w-100 btn-primary" data-toggle="modal" data-target="#editSchedule">
+                    <i class="ri-pencil-fill"></i> Editar
+                </button>
+            </div>
+        </div>
+        <div class="card-body border rounded">
+            <dl>
+                <dt>Dados</dt>
+                <dd class="text-uppercase"> Data: {{schedule.date}}</dd>
+                <dd class="text-uppercase"> Horário: {{schedule.hours}}</dd>
+                <dd class="text-uppercase"> Paciente: {{schedule.user}}</dd>
+                <dd class="text-uppercase"> Fisioterapeuta: {{schedule.admin}}</dd>
+                <dd class="text-uppercase"> Serviço: {{schedule.service}}</dd>
+                <hr>
+                <dt>Descrição</dt>
+                <dd class="text-uppercase"> {{schedule.desc}}</dd>
+            </dl>
+        </div>
+    </div>
+    {{>_footer}}
+</div>
+
+
+<!-- Editar serviço -->
+<div class="modal fade" id="editSchedule" tabindex="-1" aria-labelledby="editSchedule" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSchedule">Editar Agenda:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/admin/schedules/{{schedule.id}}/edit">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Campo Data -->
+                            <div class="form-group">
+                                <label for="name">Data:</label>
+                                <input class="form-control" type="text" placeholder="00/00/0000"
+                                 data-mask="00/00/0000" name="date" value="{{schedule.date}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Campo Horário -->
+                            <div class="form-group">
+                                <label for="name">Horário: <span class="text-danger font-weight-bold">{{schedule.hours}}</span></label>
+                                <input class="form-control" type="time" name="hours" required>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-2 text-muted p-3 border">Atenção: Se você não deseja alterar o horário, mantenha o mesmo valor em vermelho. Não deixe o campo em branco.</p>
+                    <!-- Campo Tipo -->
+                    <div class="form-group">
+                        <label for="service">Serviço:</label>
+                            <select class="form-control selectpicker text-uppercase" data-live-search="true" name="serviceId">
+                            <option value="{{schedule.serviceId}}">{{schedule.service}}</option>
+                            {{#each services}}
+                                <option value="{{id}}" class="text-uppercase">{{name}}</option>
+                            {{else}}
+                            <option>Nenhum cadastro encontrado.</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <!-- Campo Descrição -->
+                    <div class="form-group">
+                        <label>Descrição:</label>
+                        <textarea class="form-control" name="desc">{{schedule.desc}}</textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Campo Paciente -->
+                            <div class="form-group">
+                                <label>Paciente:</label>
+                                <select class="form-control selectpicker text-uppercase" data-live-search="true" name="userId">
+                                    <option value="{{schedule.userId}}">{{schedule.user}}</option>
+                                    {{#each users}}
+                                        <option value="{{id}}">{{name}}</option>
+                                    {{else}}
+                                        <option>Nenhum cadastro encontrado.</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Campo Fisioterapeuta -->
+                            <div class="form-group">
+                                <label>Fisioterapeuta:</label>
+                                <select class="form-control selectpicker text-uppercase" data-live-search="true" name="adminId">
+                                    <option value="{{schedule.adminId}}">{{schedule.admin}}</option>
+                                    {{#each admins}}
+                                        <option value="{{id}}">{{name}}</option>
+                                    {{else}}
+                                        <option>Nenhum cadastro encontrado.</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Editar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
