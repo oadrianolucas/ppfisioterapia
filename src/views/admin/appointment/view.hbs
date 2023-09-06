@@ -1,0 +1,240 @@
+{{>_nav}}
+<div class="container col-6m">
+    <div class="col-md-8 offset-md-2"> 
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb p-2 pl-2">
+                       <li class="breadcrumb-item"><a href="/admin/appointments">Consultas</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Visualizar</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-md-3 text-right">
+                <button class="btn d-block w-100 btn-primary" data-toggle="modal" data-target="#editAppointment">
+                    <i class="ri-pencil-fill"></i> Editar
+                </button>
+            </div>
+             <div class="col-md-3 text-right">
+                <button class="btn d-block w-100 btn-primary" data-toggle="modal" data-target="#addEvolution">
+                    <i class="ri-add-line"></i> Evolução
+                </button>
+            </div>
+        </div>
+        <div class="card-body border rounded">
+            <dl>
+                <dt>Dados</dt>
+                <dd class="text-uppercase"> Nome: {{appointment.schedule.user.name}}</dd>
+                <dd class="text-uppercase"> Nascimento: {{appointment.schedule.user.birth}}</dd>
+                <dd class="text-uppercase"> WhatsApp: {{appointment.schedule.user.phone}}</dd>
+                <dd class="text-uppercase"> Cpf: {{appointment.schedule.user.cpf}}</dd>
+                <hr>
+                <dd class="text-uppercase"> Hd: {{appointment.hd}}</dd>
+                <dd class="text-uppercase"> Hmp: {{appointment.hmp}}</dd>
+                <dd class="text-uppercase"> Hma: {{appointment.hma}}</dd>
+                <dd class="text-uppercase"> Text: {{appointment.text}}</dd>
+                <dt>Descrição</dt>
+                <dd class="text-uppercase"> {{appointment.desc}}</dd>
+                <hr>
+                <dt>Primeira Consulta</dt>
+                <dd class="text-uppercase"> Data: {{appointment.schedule.date}}</dd>
+                <dt>Descrição</dt>
+                <dd class="text-uppercase">{{appointment.schedule.desc}}</dd>
+            </dl>
+            <hr>
+                            <dt>Evolução</dt>
+<table class="table table-borderless table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col"># </th>
+                        <th scope="col">Data: </th>
+                        <th scope="col">Evolução: </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each appointment.evolutionUsers}}
+                    <tr>
+                        <td class="pt-4 text-uppercase">{{id}}</td>
+                        <td class="pt-4 text-uppercase">{{date}}</td>
+                        <td class="pt-4 text-uppercase">{{evolution}}</td>
+                        <td>
+                            <div class="text-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <i class="ri-settings-4-fill"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <span class="dropdown-item disabled">Ações</span>
+                                          <button class="dropdown-item" onclick="openViewEvolutionModal({{this}})">
+                                                Visualizar
+                                            </button>
+                                        <form class="p-0 m-0" action="/delete/schedule" method="POST">
+                                            <input type="hidden" name="id" value="{{id}}">
+                                            <button type="submit" class="dropdown-item text-danger"
+                                                onclick="return confirm('Tem certeza que deseja deletar?');">
+                                                Deletar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {{else}}
+                    <div class="alert alert-danger w-100" role="alert">
+                        Nenhuma evolução encotrada.
+                    </div>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{>_footer}}
+</div>
+
+<div class="modal fade" id="editAppointment" tabindex="-1" aria-labelledby="editAppointment" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSchedule">Editar Agenda:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/update/appointment">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                             <div class="form-group">
+                                <label for="service">Id Agenda Marcada: <span class="text-danger">{{appointment.scheduleId}}</span></label>
+                                    <select class="form-control selectpicker text-uppercase" data-live-search="true" name="scheduleId">
+                                    <option>...</option>
+                                    {{#each schedules}}
+                                        <option value="{{id}}" class="text-uppercase">{{id}}</option>
+                                    {{else}}
+                                    <option>Nenhum cadastro encontrado.</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">HD:</label>
+                                <input class="form-control" type="text" name="hd" value="{{appointment.hd}}" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">HMP:</label>
+                                <input class="form-control" type="text" name="hmp" value="{{appointment.hmp}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                             <div class="form-group">
+                                <label for="name">HMA:</label>
+                                <input class="form-control" type="text" name="hma" value="{{appointment.hma}}" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Descrição:</label>
+                        <textarea class="form-control" name="text">{{appointment.text}}</textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-danger">Limpar</button>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="addEvolution" tabindex="-1" aria-labelledby="addEvolution" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSchedule">Adicionar Evolução:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/create/evolution">
+                <div class="modal-body">
+                    <input type="text" name="appointmentId" value="{{appointment.id}}">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pa">Data:</label>
+                                <input class="form-control" type="text" name="date" placeholder="00/00/00" data-mask="00/00/00" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pa">Estado Clinicio:</label>
+                                <input class="form-control" type="text" name="pa" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="painUser">Grau de dor:</label>
+                                <input class="form-control" type="text" name="painUser" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                             <div class="form-group">
+                                <label for="name">Conduta:</label>
+                                <input class="form-control" type="text" name="conduct" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Evolução:</label>
+                        <textarea class="form-control" name="evolution"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-danger">Limpar</button>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewEvolutionModal" tabindex="-1" aria-labelledby="viewEvolutionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewEvolutionModalLabel">Detalhes da Evolução</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <dl>
+                    <dt>Data:</dt>
+                    <dd>{{selectedEvolution.date}}</dd>
+                    <dt>Estado Clínico:</dt>
+                    <dd>{{selectedEvolution.pa}}</dd>
+                    <dt>Grau de Dor:</dt>
+                    <dd>{{selectedEvolution.painUser}}</dd>
+                    <dt>Conduta:</dt>
+                    <dd>{{selectedEvolution.conduct}}</dd>
+                    <dt>Evolução:</dt>
+                    <dd>{{selectedEvolution.evolution}}</dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+

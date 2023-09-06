@@ -4,6 +4,8 @@ const usersController = require("./controllers/UsersController.js")
 const schedulesController = require("./controllers/SchedulesController.js")
 const adminController = require("./controllers/AdminsController.js")
 const servicesController = require("./controllers/ServicesController.js")
+const appointmentsController = require("./controllers/AppointmentsController.js")
+const evolutionUserController = require("./controllers/EvolutionUserController.js")
 
 const loginMiddleware = require("./middlewares/login")
 const filterMiddleware = require("./middlewares/filter")
@@ -43,7 +45,7 @@ router.get("/admin/create/schedule", schedulesController.viewSchedule)
 router.get("/admin/view/schedule/:id", schedulesController.viewScheduleOne)
 router.post("/create/schedule", schedulesController.createSchedule)
 router.post("/delete/schedule", schedulesController.deleteSchedule)
-router.post("/admin/schedules/:id/edit", schedulesController.editSchedule)
+router.post("/admin/schedule/:id/edit", schedulesController.editSchedule)
 router.get("/admin/schedules/search", schedulesController.searchSchedules)
 
 // Rotas de administração
@@ -60,6 +62,17 @@ router.post("/logout", adminController.PostLogoutAdmin)
 // Rotas de exclusão e atualização de usuários
 router.post("/delete/user", usersController.PostDeleteUser)
 router.post("/update/user", usersController.PostUpdateUser)
+
+// Rotas Consultas
+router.post("/create/appointment", appointmentsController.createAppointment)
+router.get("/admin/appointments", appointmentsController.fistAppointment)
+router.get("/admin/create/appointment", appointmentsController.viewCreate)
+router.get(
+  "/admin/view/appointment/:id",
+  appointmentsController.viewAppointment
+)
+
+router.post("/create/evolution", evolutionUserController.createEvolutionUser)
 
 // Rota de erro 404
 router.use((req, res) => {

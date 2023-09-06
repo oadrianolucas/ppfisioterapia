@@ -14,6 +14,9 @@ const Schedule = db.Sequelize.define("schedules", {
   desc: {
     type: db.sequelize.STRING,
   },
+  status: {
+    type: db.sequelize.INTEGER,
+  },
   userId: {
     type: db.sequelize.INTEGER,
   },

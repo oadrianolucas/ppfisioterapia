@@ -1,5 +1,5 @@
 const db = require("../database/db")
-const Invoices = db.Sequelize.define("invoices", {
+const Invoice = db.Sequelize.define("invoices", {
   mode: {
     type: db.sequelize.STRING,
   },
@@ -17,6 +17,6 @@ const Invoices = db.Sequelize.define("invoices", {
   },
 })
 
-//Invoices.sync({ force: true })
+//Invoice.sync({ force: true })
 
-module.exports = Invoices
+module.exports = Invoice

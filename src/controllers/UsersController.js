@@ -137,7 +137,6 @@ const UsersController = {
     User.findAll({
       where: termsFilter,
     }).then((termsFilter) => {
-      console.log(termsFilter)
       res.render("admin/user/users", {
         user: termsFilter.map((user) => user.toJSON()),
       })

@@ -1,0 +1,61 @@
+{{>_nav}}
+<div class="container col-6m">
+    <div class="col-md-8 offset-md-2">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/appointments">Consultas</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Adicionar</li>
+            </ol>
+        </nav>
+        <div class="card-body rounded border ">
+            <form method="POST" action="/create/appointment">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                             <div class="form-group">
+                                <label for="service">Id Agenda Marcada:</label>
+                                    <select class="form-control selectpicker text-uppercase" data-live-search="true" name="scheduleId">
+                                    <option>...</option>
+                                    {{#each schedules}}
+                                        <option value="{{id}}" class="text-uppercase">{{id}}</option>
+                                    {{else}}
+                                    <option>Nenhum cadastro encontrado.</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">HD:</label>
+                                <input class="form-control" type="text" name="hd" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">HMP:</label>
+                                <input class="form-control" type="text" name="hmp" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                             <div class="form-group">
+                                <label for="name">HMA:</label>
+                                <input class="form-control" type="text" name="hma" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Descrição:</label>
+                        <textarea class="form-control" name="text"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-danger">Limpar</button>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {{>_footer}}
+</div>

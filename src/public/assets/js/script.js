@@ -4,9 +4,7 @@ $(document).ready(() => {
     delay: 20000,
   }
 
-  console.log("Document body:", document.body)
   const alertElement = document.querySelector(".toast")
-  console.log("Alert element:", alertElement)
   if (alertElement) {
     const toast = new bootstrap.Toast(alertElement, alertOptions)
     toast.show()
@@ -47,6 +45,4 @@ $(document).ready(() => {
       console.error("Error:", error.message)
     }
   })
-
-  $(".chosen").chosen({ no_results_text: "Nenhuma opção encontrada:" })
 })

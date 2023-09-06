@@ -46,6 +46,7 @@ const SchedulesController = {
         hours: hours,
         type: type,
         desc: desc,
+        status: 0,
         userId: userId,
         adminId: adminId,
         serviceId: serviceId,
@@ -156,7 +157,8 @@ const SchedulesController = {
 
   async editSchedule(req, res) {
     const scheduleId = req.params.id
-    const { date, hours, type, desc, userId, adminId, serviceId } = req.body
+    const { date, hours, type, desc, status, userId, adminId, serviceId } =
+      req.body
 
     try {
       const schedule = await Schedule.findByPk(scheduleId)
@@ -183,6 +185,7 @@ const SchedulesController = {
       schedule.hours = hours
       schedule.type = type
       schedule.desc = desc
+      schedule.status = status
       schedule.userId = userId
       schedule.adminId = adminId
       schedule.serviceId = serviceId
