@@ -5,6 +5,5 @@ const Service = db.Sequelize.define("services", {
   },
 })
 
-//Service.sync({ force: true })
 
 module.exports = Service

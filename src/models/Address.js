@@ -1,5 +1,4 @@
 const db = require("../database/db")
-// const User = require("../models/User")
 const Address = db.Sequelize.define("address", {
   zipcode: {
     type: db.sequelize.STRING,
@@ -23,8 +22,5 @@ const Address = db.Sequelize.define("address", {
     type: db.sequelize.INTEGER,
   },
 })
-
-//User.hasMany(Address)
-//Address.sync({ force: true })
 
 module.exports = Address

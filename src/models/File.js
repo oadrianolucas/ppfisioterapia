@@ -8,6 +8,4 @@ const File = db.Sequelize.define("files", {
   },
 })
 
-//File.sync({ force: true })
-
 module.exports = File

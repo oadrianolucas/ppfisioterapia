@@ -60,6 +60,7 @@ const AppointmentsController = {
       res.status(500).send("Erro ao buscar dados.")
     }
   },
+  
   async createAppointment(req, res) {
     const { hd, hmp, hma, text, scheduleId } = req.body
     try {

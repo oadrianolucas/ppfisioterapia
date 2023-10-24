@@ -1,6 +1,5 @@
 const db = require("../database/db")
-//const Appointment = require("../models/Appointment")
-const EvolutionUser = db.Sequelize.define("evolutionUsers", {
+const Evolution = db.Sequelize.define("evolutions", {
   date: {
     type: db.sequelize.STRING,
   },
@@ -21,7 +20,4 @@ const EvolutionUser = db.Sequelize.define("evolutionUsers", {
   },
 })
 
-//Appointment.hasMany(EvolutionUser)
-//EvolutionUser.sync({ force: true })
-
-module.exports = EvolutionUser
+module.exports = Evolution

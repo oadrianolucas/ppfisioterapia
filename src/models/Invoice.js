@@ -17,6 +17,5 @@ const Invoice = db.Sequelize.define("invoices", {
   },
 })
 
-//Invoice.sync({ force: true })
 
 module.exports = Invoice

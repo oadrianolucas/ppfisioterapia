@@ -1,5 +1,4 @@
 const db = require("../database/db")
-//const Schedule = require("../models/Schedule")
 const Appointment = db.Sequelize.define("appointments", {
   hd: {
     type: db.sequelize.STRING,
@@ -17,8 +16,5 @@ const Appointment = db.Sequelize.define("appointments", {
     type: db.sequelize.INTEGER,
   },
 })
-
-//Schedule.hasMany(Appointment)
-//Appointment.sync({ force: true })
 
 module.exports = Appointment
