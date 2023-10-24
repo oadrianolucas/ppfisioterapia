@@ -1,9 +1,9 @@
 const db = require("../database/db")
 const InvoiceFile = db.Sequelize.define("invoiceFiles", {
-  FileId: {
+  fileId: {
     type: db.sequelize.INTEGER,
   },
-  InvoiceId: {
+  invoiceId: {
     type: db.sequelize.INTEGER,
   },
 })

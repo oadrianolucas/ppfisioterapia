@@ -1,7 +1,7 @@
 const Appointment = require("../models/Appointment")
 const Schedule = require("../models/Schedule")
 const User = require("../models/User")
-const EvolutionUser = require("../models/EvolutionUser")
+const Evolution = require("../models/Evolution")
 
 const AppointmentsController = {
   async viewCreate(req, res) {
@@ -41,12 +41,12 @@ const AppointmentsController = {
         }
       }
 
-      // Encontrar as evolutionUsers relacionadas pelo appointmentId
-      const evolutionUsers = await EvolutionUser.findAll({
+      // Encontrar as evolutions relacionadas pelo appointmentId
+      const evolution = await Evolution.findAll({
         where: { appointmentId: appointment.id },
       })
-      result.evolutionUsers = evolutionUsers.map((evolutionUser) =>
-        evolutionUser.toJSON()
+      result.evolution = evolutevolutionionUsers.map((evolution) =>
+        evolution.toJSON()
       )
 
       console.log(result)

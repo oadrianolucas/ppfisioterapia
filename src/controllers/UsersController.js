@@ -1,7 +1,6 @@
 const sequelize = require("sequelize");
 const User = require("../models/User");
 const Address = require("../models/Address");
-
 const REDIRECT_USERS = "/admin/users";
 
 const UsersController = {

@@ -1,9 +1,9 @@
-const EvolutionUser = require("../models/EvolutionUser")
-const EvolutionUserController = {
-  async createEvolutionUser(req, res) {
+const Evolution = require("../models/Evolution")
+const EvolutionController = {
+  async createEvolution(req, res) {
     const { date, pa, painUser, conduct, evolution, appointmentId } = req.body
     try {
-      await EvolutionUser.create({
+      await Evolution.create({
         date: date,
         pa: pa,
         painUser: painUser,
@@ -18,4 +18,4 @@ const EvolutionUserController = {
   },
 }
 
-module.exports = EvolutionUserController
+module.exports = EvolutionController

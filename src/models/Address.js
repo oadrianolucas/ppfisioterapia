@@ -20,6 +20,11 @@ const Address = db.Sequelize.define("address", {
   },
   userId: {
     type: db.sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'users', 
+      key: 'id',
+    },
   },
 })
 

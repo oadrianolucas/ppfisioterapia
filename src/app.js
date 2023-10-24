@@ -16,6 +16,8 @@ app.use(bodyParser.json())
 
 app.use(
   session({
+    resave: false,
+    saveUninitialized: false,
     secret: "erg0eg65256ge",
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 },
   })
@@ -25,7 +27,7 @@ app.use(flash())
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash("success_msg")
   res.locals.error_msg = req.flash("error_msg")
-  res.locals.user = req.session.user
+  res.locals.admin = req.session.admin
   next()
 })
 

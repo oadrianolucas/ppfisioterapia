@@ -5,17 +5,17 @@ const schedulesController = require("./controllers/SchedulesController.js")
 const adminController = require("./controllers/AdminsController.js")
 const servicesController = require("./controllers/ServicesController.js")
 const appointmentsController = require("./controllers/AppointmentsController.js")
-const evolutionUserController = require("./controllers/EvolutionUserController.js")
+const evolutionController = require("./controllers/evolutionController.js")
 
 const loginMiddleware = require("./middlewares/login")
-const filterMiddleware = require("./middlewares/filter")
+const filter = require("./middlewares/filter")
 
 // Rota inicial
 router.get("/", (req, res) => {
   res.render("admin/login")
 })
 
-router.get("/admin/finances", (req, res) => {
+router.get("/admin/finances", loginMiddleware, (req, res) => {
   res.render("admin/dev")
 })
 
@@ -24,56 +24,58 @@ router.get("/privacy-policy", (req, res) => {
 })
 
 // Rotas de criação e visualização de usuários
-router.get("/admin/user/create", (req, res) => {
+router.get("/admin/user/create", loginMiddleware, (req, res) => {
   res.render("admin/user/create")
 })
-router.post("/create/user", usersController.PostCreateUser)
-router.get("/admin/user/view/:id", usersController.GetViewUser)
+router.post("/create/user", loginMiddleware, usersController.PostCreateUser)
+router.get("/admin/user/view/:id", loginMiddleware, usersController.GetViewUser)
 
 // Rotas de listagem e busca de usuários
-router.get("/admin/users", usersController.GetFindAllUsers)
-router.get("/admin/users/search", usersController.GetSearchUsers)
+router.get("/admin/users", loginMiddleware, usersController.GetFindAllUsers)
+router.get("/admin/users/search", loginMiddleware, usersController.GetSearchUsers)
 
 //Rotas de serviços
-router.get("/admin/services", servicesController.GetFindAllServices)
-router.post("/create/service", servicesController.PostCreateService)
-router.post("/delete/service", servicesController.PostDeleteService)
+router.get("/admin/services", filter, servicesController.GetFindAllServices)
+router.post("/create/service", filter,servicesController.PostCreateService)
+router.post("/delete/service", filter, servicesController.PostDeleteService)
 
 // Rotas de agendamento
-router.get("/admin/schedules", schedulesController.findSchedule)
-router.get("/admin/create/schedule", schedulesController.viewSchedule)
-router.get("/admin/view/schedule/:id", schedulesController.viewScheduleOne)
-router.post("/create/schedule", schedulesController.createSchedule)
-router.post("/delete/schedule", schedulesController.deleteSchedule)
-router.post("/admin/schedule/:id/edit", schedulesController.editSchedule)
-router.get("/admin/schedules/search", schedulesController.searchSchedules)
+router.get("/admin/schedules", loginMiddleware, schedulesController.findSchedule)
+router.get("/admin/create/schedule", loginMiddleware, schedulesController.viewSchedule)
+router.get("/admin/view/schedule/:id", loginMiddleware, schedulesController.viewScheduleOne)
+router.post("/create/schedule", loginMiddleware, schedulesController.createSchedule)
+router.post("/delete/schedule", loginMiddleware, schedulesController.deleteSchedule)
+router.post("/admin/schedule/:id/edit", loginMiddleware, schedulesController.editSchedule)
+router.get("/admin/schedules/search", loginMiddleware, schedulesController.searchSchedules)
 
 // Rotas de administração
-router.get("/admin/admins/list", adminController.GetFindAllAdmins)
-router.get("/admin/edit/:id", adminController.GetUpdateAdmin)
-router.post("/delete/admin", adminController.PostDeleteAdmin)
-router.post("/create/admin", adminController.PostCreateAdmin)
-router.post("/update/admin", adminController.PostUpdateAdmin)
+router.get("/admin/admins/list", filter,  adminController.GetFindAllAdmins)
+router.get("/admin/edit/:id", filter,adminController.GetUpdateAdmin)
+router.post("/delete/admin", filter,adminController.PostDeleteAdmin)
+router.post("/create/admin",  filter,adminController.PostCreateAdmin)
+router.post("/update/admin",  filter,adminController.PostUpdateAdmin)
 
 // Rotas de autenticação
 router.post("/login", adminController.PostLoginAdmin)
 router.post("/logout", adminController.PostLogoutAdmin)
 
 // Rotas de exclusão e atualização de usuários
-router.post("/delete/user", usersController.PostDeleteUser)
-router.post("/update/user", usersController.PostUpdateUser)
+router.post("/delete/user", loginMiddleware, usersController.PostDeleteUser)
+router.post("/update/user", loginMiddleware, usersController.PostUpdateUser)
 
 // Rotas Consultas
-router.post("/create/appointment", appointmentsController.createAppointment)
-router.get("/admin/appointments", appointmentsController.fistAppointment)
-router.get("/admin/create/appointment", appointmentsController.viewCreate)
+router.post("/create/appointment", loginMiddleware, appointmentsController.createAppointment)
+router.get("/admin/appointments", loginMiddleware, appointmentsController.fistAppointment)
+router.get("/admin/create/appointment", loginMiddleware, appointmentsController.viewCreate)
 router.get(
-  "/admin/view/appointment/:id",
+  "/admin/view/appointment/:id", loginMiddleware, 
   appointmentsController.viewAppointment
 )
 
-router.post("/create/evolution", evolutionUserController.createEvolutionUser)
-
+router.post("/create/evolution", loginMiddleware, evolutionController.createEvolution)
+router.get("/acesso-negado", (req, res)=>{
+  res.render("admin/accessdenied")
+})
 // Rota de erro 404
 router.use((req, res) => {
   res.status(404)

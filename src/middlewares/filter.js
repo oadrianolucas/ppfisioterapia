@@ -1,13 +1,10 @@
-function filter(req, res, next) {
-  next()
-  /*
-  const user = req.session.user
-  const filter = req.session.user.filter
-  if (user && filter == 3) {
+const filter = ((req, res, next) => {
+  const admin = req.session.admin
+  const filter = req.session.admin.filter
+  if (admin && filter == 3) {
     next()
   } else {
-    res.render("admin/accessdenied")
+    res.redirect("/acesso-negado")
   }
-  */
-}
+})
 module.exports = filter

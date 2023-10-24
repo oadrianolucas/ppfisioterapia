@@ -4,4 +4,5 @@ module.exports = {
   INVALID_PASSWORD: "A senha que você inseriu não está correta.",
   INVALID_LOGIN: "O login que você inseriu não está conectado a uma conta.",
   LOGIN_SUCCESS: "Login realizado com sucesso.",
+  LOGIN_ERROR_LOGIN: "Realize o login para ter acesso.",
 }

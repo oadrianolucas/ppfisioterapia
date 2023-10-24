@@ -95,18 +95,18 @@ const AdminsController = {
   },
 
   async PostLoginAdmin(req, res) {
-    const login = req.body.login
-    const password = req.body.password
+    const {email, password} = req.body
     try {
-      const admin = await Admin.findOne({ where: { login: login } })
+      const admin = await Admin.findOne({ where: { email: email } })
       if (admin) {
         const correct = bcrypt.compareSync(password, admin.password)
         if (correct) {
           req.session.admin = {
             name: admin.name,
-            login: admin.login,
+            email: email.email,
             filter: admin.filter,
           }
+          res.redirect("/admin/schedules")
         } else {
           req.flash("error_msg", alert.INVALID_PASSWORD)
           res.redirect("/")
