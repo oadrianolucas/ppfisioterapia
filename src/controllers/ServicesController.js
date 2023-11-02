@@ -40,16 +40,13 @@ const ServiceController = {
   },
   async PostDeleteService(req, res) {
     const serviceId = req.body.id
-
     try {
       const service = await Service.findByPk(serviceId)
-
       if (!service) {
         req.flash("error_msg", "Serviço não encontrado.")
         res.redirect("/admin/services")
         return
       }
-
       await service.destroy()
       res.redirect("/admin/services")
     } catch (error) {

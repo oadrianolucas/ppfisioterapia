@@ -1,15 +1,17 @@
 const { Sequelize } = require("./db")
+
 const bcrypt = require("bcryptjs")
 const Admin = require("../models/Admin")
 const Address = require("../models/Address")
-const Appointment = require("../models/Appointment")
 const Evolution = require("../models/Evolution")
 const File = require("../models/File")
 const Invoice = require("../models/Invoice")
 const InvoiceFile = require("../models/InvoiceFile")
-const Schedule = require("../models/Schedule")
 const Service = require("../models/Service")
 const User = require("../models/User")
+const Schedule = require("../models/Schedule")
+const Appointment = require("../models/Appointment")
+const Finance = require("../models/Finance")
 
 File.hasMany(InvoiceFile)
 Appointment.hasMany(Evolution)
@@ -19,6 +21,9 @@ Admin.hasMany(Schedule)
 Service.hasMany(Schedule)
 Invoice.hasMany(InvoiceFile)
 Schedule.hasMany(Appointment)
+Appointment.hasMany(Finance)
+Finance.hasMany(File)
+
 
 async function create() {
     try {
@@ -29,7 +34,7 @@ async function create() {
         name: "Admin",
         email: "admin@ppfisioterapia.com",
         password: hash,
-        filter: "1",
+        filter: "3",
       }); 
       console.log("Tabelas criadas com sucesso!")
     } catch (error) {

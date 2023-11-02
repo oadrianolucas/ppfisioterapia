@@ -5,7 +5,9 @@ const schedulesController = require("./controllers/SchedulesController.js")
 const adminController = require("./controllers/AdminsController.js")
 const servicesController = require("./controllers/ServicesController.js")
 const appointmentsController = require("./controllers/AppointmentsController.js")
-const evolutionController = require("./controllers/evolutionController.js")
+const evolutionsController = require("./controllers/EvolutionsController.js")
+const financesController = require("./controllers/FinancesController.js")
+const filesController = require("./controllers/FilesController.js")
 
 const loginMiddleware = require("./middlewares/login")
 const filter = require("./middlewares/filter")
@@ -15,9 +17,12 @@ router.get("/", (req, res) => {
   res.render("admin/login")
 })
 
-router.get("/admin/finances", loginMiddleware, (req, res) => {
-  res.render("admin/dev")
-})
+router.post("/create/file/finance", loginMiddleware, filesController.createFileFinance)
+router.post("/delete/file/finance", loginMiddleware, filesController.deleteFileFinance)
+
+router.get("/admin/finances", loginMiddleware, financesController.allFinances)
+router.post("/create/finance", loginMiddleware, financesController.createFinance)
+router.post("/delete/finance", loginMiddleware, financesController.deleteFinance)
 
 router.get("/privacy-policy", (req, res) => {
   res.render("privacyPolicy")
@@ -36,8 +41,10 @@ router.get("/admin/users/search", loginMiddleware, usersController.GetSearchUser
 
 //Rotas de serviços
 router.get("/admin/services", filter, servicesController.GetFindAllServices)
-router.post("/create/service", filter,servicesController.PostCreateService)
+router.post("/create/service", filter, servicesController.PostCreateService)
 router.post("/delete/service", filter, servicesController.PostDeleteService)
+
+
 
 // Rotas de agendamento
 router.get("/admin/schedules", loginMiddleware, schedulesController.findSchedule)
@@ -49,11 +56,12 @@ router.post("/admin/schedule/:id/edit", loginMiddleware, schedulesController.edi
 router.get("/admin/schedules/search", loginMiddleware, schedulesController.searchSchedules)
 
 // Rotas de administração
-router.get("/admin/admins/list", filter,  adminController.GetFindAllAdmins)
-router.get("/admin/edit/:id", filter,adminController.GetUpdateAdmin)
-router.post("/delete/admin", filter,adminController.PostDeleteAdmin)
-router.post("/create/admin",  filter,adminController.PostCreateAdmin)
-router.post("/update/admin",  filter,adminController.PostUpdateAdmin)
+router.get("/admin/admins/list", filter, adminController.GetFindAllAdmins)
+router.get("/admin/edit/:id", filter, adminController.GetUpdateAdmin)
+router.post("/delete/admin", filter, adminController.PostDeleteAdmin)
+router.post("/create/admin", filter, adminController.PostCreateAdmin)
+router.post("/update/admin", filter, adminController.PostUpdateAdmin)
+
 
 // Rotas de autenticação
 router.post("/login", adminController.PostLoginAdmin)
@@ -68,12 +76,15 @@ router.post("/create/appointment", loginMiddleware, appointmentsController.creat
 router.get("/admin/appointments", loginMiddleware, appointmentsController.fistAppointment)
 router.get("/admin/create/appointment", loginMiddleware, appointmentsController.viewCreate)
 router.get(
-  "/admin/view/appointment/:id", loginMiddleware, 
+  "/admin/view/appointment/:id", loginMiddleware,
   appointmentsController.viewAppointment
 )
 
-router.post("/create/evolution", loginMiddleware, evolutionController.createEvolution)
-router.get("/acesso-negado", (req, res)=>{
+router.post("/create/evolution", loginMiddleware, evolutionsController.createEvolution)
+router.post("/delete/evolution", filter, evolutionsController.deleteEvolution)
+router.post("/update/evolution", filter, evolutionsController.updateEvolution)
+
+router.get("/acesso-negado", (req, res) => {
   res.render("admin/accessdenied")
 })
 // Rota de erro 404

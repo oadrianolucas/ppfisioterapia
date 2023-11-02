@@ -12,12 +12,13 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label for="service">Id Agenda Marcada:</label>
-                                    <select class="form-control selectpicker text-uppercase" data-live-search="true" name="scheduleId">
+                                <select class="form-control selectpicker text-uppercase" data-live-search="true"
+                                    name="scheduleId">
                                     <option>...</option>
                                     {{#each schedules}}
-                                        <option value="{{id}}" class="text-uppercase">{{id}}</option>
+                                    <option value="{{id}}" class="text-uppercase">{{id}}</option>
                                     {{else}}
                                     <option>Nenhum cadastro encontrado.</option>
                                     {{/each}}
@@ -39,7 +40,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label for="name">HMA:</label>
                                 <input class="form-control" type="text" name="hma" required>
                             </div>

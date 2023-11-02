@@ -1,7 +1,7 @@
 {{>_nav}}
 <div class="container col-6m">
     <div class="col-md-8 offset-md-2">
-        
+
         <div class="row mb-3">
             <div class="col-md-9">
                 <nav aria-label="breadcrumb">
@@ -52,26 +52,29 @@
                             <!-- Campo Data -->
                             <div class="form-group">
                                 <label for="name">Data:</label>
-                                <input class="form-control" type="text" placeholder="00/00/0000"
-                                 data-mask="00/00/0000" name="date" value="{{schedule.date}}" required>
+                                <input class="form-control" type="text" placeholder="00/00/0000" data-mask="00/00/0000"
+                                    name="date" value="{{schedule.date}}" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <!-- Campo Horário -->
                             <div class="form-group">
-                                <label for="name">Horário: <span class="text-danger font-weight-bold">{{schedule.hours}}</span></label>
+                                <label for="name">Horário: <span
+                                        class="text-danger font-weight-bold">{{schedule.hours}}</span></label>
                                 <input class="form-control" type="time" name="hours" required>
                             </div>
                         </div>
                     </div>
-                    <p class="mb-2 text-muted p-3 border">Atenção: Se você não deseja alterar o horário, mantenha o mesmo valor em vermelho. Não deixe o campo em branco.</p>
+                    <p class="mb-2 text-muted p-3 border">Atenção: Se você não deseja alterar o horário, mantenha o
+                        mesmo valor em vermelho. Não deixe o campo em branco.</p>
                     <!-- Campo Tipo -->
                     <div class="form-group">
                         <label for="service">Serviço:</label>
-                            <select class="form-control selectpicker text-uppercase" data-live-search="true" name="serviceId">
+                        <select class="form-control selectpicker text-uppercase" data-live-search="true"
+                            name="serviceId">
                             <option value="{{schedule.serviceId}}">{{schedule.service}}</option>
                             {{#each services}}
-                                <option value="{{id}}" class="text-uppercase">{{name}}</option>
+                            <option value="{{id}}" class="text-uppercase">{{name}}</option>
                             {{else}}
                             <option>Nenhum cadastro encontrado.</option>
                             {{/each}}
@@ -87,12 +90,13 @@
                             <!-- Campo Paciente -->
                             <div class="form-group">
                                 <label>Paciente:</label>
-                                <select class="form-control selectpicker text-uppercase" data-live-search="true" name="userId">
+                                <select class="form-control selectpicker text-uppercase" data-live-search="true"
+                                    name="userId">
                                     <option value="{{schedule.userId}}">{{schedule.user}}</option>
                                     {{#each users}}
-                                        <option value="{{id}}">{{name}}</option>
+                                    <option value="{{id}}">{{name}}</option>
                                     {{else}}
-                                        <option>Nenhum cadastro encontrado.</option>
+                                    <option>Nenhum cadastro encontrado.</option>
                                     {{/each}}
                                 </select>
                             </div>
@@ -101,12 +105,13 @@
                             <!-- Campo Fisioterapeuta -->
                             <div class="form-group">
                                 <label>Fisioterapeuta:</label>
-                                <select class="form-control selectpicker text-uppercase" data-live-search="true" name="adminId">
+                                <select class="form-control selectpicker text-uppercase" data-live-search="true"
+                                    name="adminId">
                                     <option value="{{schedule.adminId}}">{{schedule.admin}}</option>
                                     {{#each admins}}
-                                        <option value="{{id}}">{{name}}</option>
+                                    <option value="{{id}}">{{name}}</option>
                                     {{else}}
-                                        <option>Nenhum cadastro encontrado.</option>
+                                    <option>Nenhum cadastro encontrado.</option>
                                     {{/each}}
                                 </select>
                             </div>

@@ -52,7 +52,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each appointment.evolution}}
+                    {{#each appointment.evolutions}}
                     <tr>
                         <td class="pt-4 text-uppercase">{{id}}</td>
                         <td class="pt-4 text-uppercase">{{date}}</td>
@@ -69,7 +69,7 @@
                                         <button class="dropdown-item" onclick="openViewEvolutionModal({{this}})">
                                             Visualizar
                                         </button>
-                                        <form class="p-0 m-0" action="/delete/evolution" method="POST">
+                                        <form class="p-0 m-0" action="/delete/schedule" method="POST">
                                             <input type="hidden" name="id" value="{{id}}">
                                             <button type="submit" class="dropdown-item text-danger"
                                                 onclick="return confirm('Tem certeza que deseja deletar?');">
@@ -167,7 +167,7 @@
             </div>
             <form method="POST" action="/create/evolution">
                 <div class="modal-body">
-                    <input type="hidden" name="appointmentId" value="{{appointment.id}}">
+                    <input type="text" name="appointmentId" value="{{appointment.id}}">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">

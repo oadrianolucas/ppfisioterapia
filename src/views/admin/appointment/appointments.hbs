@@ -9,8 +9,7 @@
                 <div class="p-2">
                     <form action="/admin/appointments/search">
                         <div class="input-group mt-3">
-                            <input type="text" class="form-control"
-                             placeholder="Nome" name="term">
+                            <input type="text" class="form-control" placeholder="Nome" name="term">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="submit">
                                     <i class="ri-search-line"></i>
@@ -36,6 +35,7 @@
             <table class="table table-borderless table-hover">
                 <thead>
                     <tr>
+                        <th scope="col"># </th>
                         <th scope="col">Data: </th>
                         <th scope="col">Paciente: </th>
                     </tr>
@@ -43,8 +43,10 @@
                 <tbody>
                     {{#each appointments}}
                     <tr>
+                        <td class="pt-4 text-uppercase">{{schedule.id}}</td>
                         <td class="pt-4 text-uppercase">{{schedule.date}}</td>
-                        <td class="pt-4 text-uppercase">{{#if schedule.user}}{{schedule.user.name}}{{else}}N/A{{/if}}</td>
+                        <td class="pt-4 text-uppercase">{{#if schedule.user}}{{schedule.user.name}}{{else}}N/A{{/if}}
+                        </td>
                         <td>
                             <div class="text-right">
                                 <div class="btn-group">
@@ -80,4 +82,3 @@
     </div>
     {{>_footer}}
 </div>
-

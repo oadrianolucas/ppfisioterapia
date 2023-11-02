@@ -12,14 +12,12 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <!-- Campo Data -->
                             <div class="form-group">
                                 <label for="name">Data:</label>
                                 <input class="form-control" type="date" name="date" placeholder="00/00/00" required>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <!-- Campo Horário -->
                             <div class="form-group">
                                 <label for="name">Horário:</label>
                                 <input class="form-control" type="time" name="hours" required>
@@ -29,10 +27,11 @@
                     <!-- Campo Tipo -->
                     <div class="form-group">
                         <label for="service">Serviço:</label>
-                            <select class="form-control selectpicker text-uppercase" data-live-search="true" name="serviceId">
+                        <select class="form-control selectpicker text-uppercase" data-live-search="true"
+                            name="serviceId">
                             <option>...</option>
                             {{#each services}}
-                                <option value="{{id}}" class="text-uppercase">{{name}}</option>
+                            <option value="{{id}}" class="text-uppercase">{{name}}</option>
                             {{else}}
                             <option>Nenhum cadastro encontrado.</option>
                             {{/each}}
@@ -48,12 +47,13 @@
                             <!-- Campo Paciente -->
                             <div class="form-group">
                                 <label>Paciente:</label>
-                                <select class="form-control selectpicker text-uppercase" data-live-search="true" name="userId">
+                                <select class="form-control selectpicker text-uppercase" data-live-search="true"
+                                    name="userId">
                                     <option>...</option>
                                     {{#each users}}
-                                        <option value="{{id}}">{{name}}</option>
+                                    <option value="{{id}}">{{name}}</option>
                                     {{else}}
-                                        <option>Nenhum cadastro encontrado.</option>
+                                    <option>Nenhum cadastro encontrado.</option>
                                     {{/each}}
                                 </select>
                             </div>
@@ -62,12 +62,13 @@
                             <!-- Campo Fisioterapeuta -->
                             <div class="form-group">
                                 <label>Fisioterapeuta:</label>
-                                <select class="form-control selectpicker text-uppercase" data-live-search="true" name="adminId">
+                                <select class="form-control selectpicker text-uppercase" data-live-search="true"
+                                    name="adminId">
                                     <option>...</option>
                                     {{#each admins}}
-                                        <option value="{{id}}">{{name}}</option>
+                                    <option value="{{id}}">{{name}}</option>
                                     {{else}}
-                                        <option>Nenhum cadastro encontrado.</option>
+                                    <option>Nenhum cadastro encontrado.</option>
                                     {{/each}}
                                 </select>
                             </div>

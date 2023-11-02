@@ -95,7 +95,7 @@ const AdminsController = {
   },
 
   async PostLoginAdmin(req, res) {
-    const {email, password} = req.body
+    const { email, password } = req.body
     try {
       const admin = await Admin.findOne({ where: { email: email } })
       if (admin) {

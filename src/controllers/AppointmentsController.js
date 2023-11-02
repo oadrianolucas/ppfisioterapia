@@ -18,7 +18,6 @@ const AppointmentsController = {
   async viewAppointment(req, res) {
     const id = req.params.id
     const [schedules] = await Promise.all([Schedule.findAll()])
-
     try {
       const appointment = await Appointment.findByPk(id)
 
@@ -42,10 +41,10 @@ const AppointmentsController = {
       }
 
       // Encontrar as evolutions relacionadas pelo appointmentId
-      const evolution = await Evolution.findAll({
+      const evolutions = await Evolution.findAll({
         where: { appointmentId: appointment.id },
       })
-      result.evolution = evolutevolutionionUsers.map((evolution) =>
+      result.evolution = evolutions.map((evolution) =>
         evolution.toJSON()
       )
 
@@ -60,7 +59,7 @@ const AppointmentsController = {
       res.status(500).send("Erro ao buscar dados.")
     }
   },
-  
+
   async createAppointment(req, res) {
     const { hd, hmp, hma, text, scheduleId } = req.body
     try {

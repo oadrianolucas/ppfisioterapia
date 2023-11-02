@@ -6,6 +6,9 @@ const File = db.Sequelize.define("files", {
   location: {
     type: db.sequelize.STRING,
   },
+  financeId:{
+    type: db.sequelize.INTEGER
+  }
 })
 
 module.exports = File
