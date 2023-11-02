@@ -26,12 +26,10 @@ const SchedulesController = {
 
   async createSchedule(req, res) {
     const { date, hours, type, desc, userId, adminId, serviceId } = req.body
-    const formattedDate = moment(date, "YYYY-MM-DD").format("DD/MM/YYYY")
-
     try {
       const existingSchedule = await Schedule.findOne({
         where: {
-          date: formattedDate,
+          date: date,
           hours: hours,
         },
       })
@@ -42,7 +40,7 @@ const SchedulesController = {
       }
 
       await Schedule.create({
-        date: formattedDate,
+        date: date,
         hours: hours,
         type: type,
         desc: desc,

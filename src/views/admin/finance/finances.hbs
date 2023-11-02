@@ -125,12 +125,12 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="service">Id Consulta: </label>
+                                                    <label for="service">Cliente: </label>
                                                     <select class="form-control selectpicker text-uppercase"
-                                                        data-live-search="true" name="appointmentId">
+                                                        data-live-search="true" name="userId">
                                                         <option>...</option>
-                                                        {{#each appointments}}
-                                                        <option value="{{id}}" class="text-uppercase">{{id}}</option>
+                                                        {{#each users}}
+                                                        <option value="{{id}}" class="text-uppercase">{{name}}</option>
                                                         {{else}}
                                                         <option>Nenhum cadastro encontrado.</option>
                                                         {{/each}}

@@ -21,7 +21,7 @@ Admin.hasMany(Schedule)
 Service.hasMany(Schedule)
 Invoice.hasMany(InvoiceFile)
 Schedule.hasMany(Appointment)
-Appointment.hasMany(Finance)
+User.hasMany(Finance)
 Finance.hasMany(File)
 
 

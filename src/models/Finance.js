@@ -15,7 +15,7 @@ const Finance = db.Sequelize.define("finances", {
   description: {
     type: db.sequelize.STRING,
   },
-  appointmentId: {
+  userId: {
     type: db.sequelize.INTEGER,
   },
 })

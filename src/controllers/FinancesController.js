@@ -1,5 +1,5 @@
 const Finance = require("../models/Finance")
-const Appointment = require("../models/Appointment")
+const User = require("../models/User")
 const File = require("../models/File")
 const alert = require("../middlewares/alert")
 const REDIRECT_FINANCES = "/admin/finances"
@@ -15,7 +15,7 @@ const categoryMapping = {
 
 const FinanceController = {
   async createFinance(req, res) {
-    const { type, date, value, category, description, appointmentId } = req.body
+    const { type, date, value, category, description, userId } = req.body
     try {
       await Finance.create({
         type: type,
@@ -23,7 +23,7 @@ const FinanceController = {
         value: value,
         category: category,
         description: description,
-        appointmentId: appointmentId,
+        userId: userId,
       })
       res.redirect(REDIRECT_FINANCES);
     } catch (error) {
@@ -42,7 +42,7 @@ const FinanceController = {
       const totalType2 = type2Finances.reduce((total, finance) => total + finance.value, 0);
       const difference = totalType1 - totalType2;
 
-      const appointments = await Appointment.findAll();
+      const users = await User.findAll();
       const financePromises = finances.map(async (finance) => {
         const files = await File.findAll({
           where: { financeId: finance.id },
@@ -58,7 +58,7 @@ const FinanceController = {
   
       res.render("admin/finance/finances", {
         finances: financeData,
-        appointments: appointments.map((appointment) => appointment.toJSON()),
+        users: users.map((user) => user.toJSON()),
         totalType1: totalType1,
         totalType2: totalType2,
         difference: difference,
@@ -101,7 +101,7 @@ const FinanceController = {
 
   async updateFinance(req, res) {
     const financeId = req.params.id;
-    const { date, type, value, category, description, appointmentId } = req.body;
+    const { date, type, value, category, description, userId } = req.body;
     try {
       const updatedFinance = await Finance.findByIdAndUpdate(
         financeId,
@@ -111,7 +111,7 @@ const FinanceController = {
           value: value,
           category: category,
           description: description,
-          appointmentId: appointmentId,
+          userId: userId,
         },
         { new: true }
       );
@@ -141,7 +141,7 @@ const FinanceController = {
         raw: true,
       });
 
-      const appointments = await Appointment.findAll();
+      const users = await User.findAll();
       const financePromises = finances.map(async (finance) => {
         const files = await File.findAll({
           where: { financeId: finance.id },
@@ -156,7 +156,7 @@ const FinanceController = {
       const financeData = await Promise.all(financePromises);
       res.render("admin/finance/finances", {
         finances: financeData,
-        appointments: appointments.map((appointment) => appointment.toJSON()),
+        users: users.map((user) => user.toJSON()),
       });
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -184,7 +184,7 @@ const FinanceController = {
           finance.value,
           categoria,
           finance.description,
-          finance.appointmentId,
+          finance.userId,
         ]);
       });
 
@@ -229,7 +229,7 @@ const FinanceController = {
           finance.value,
           categoria,
           finance.description,
-          finance.appointmentId,
+          finance.userId,
         ]);
       });
 
