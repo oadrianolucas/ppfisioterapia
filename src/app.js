@@ -8,6 +8,8 @@ const session = require("express-session")
 const flash = require("connect-flash")
 const app = express()
 const routes = require("./routes")
+const handlebarsHelpers = require("handlebars-helpers")();
+const numberFormatter = require("number-formatter");
 
 app.set("port", process.env.PORT || 3000)
 
@@ -36,13 +38,28 @@ app.use(express.static(path.join(__dirname, "/public")))
 
 app.set("view engine", ".hbs")
 app.set("views", path.join(__dirname, "views"))
+
 app.engine(
   ".hbs",
   handlebars({
     defaultLayout: "main",
     extname: "hbs",
+    helpers: {
+      formatDate: function (date) {
+        if (moment(date, 'YYYY-MM-DD', true).isValid()) {
+          return moment(date).format('DD/MM/YYYY');
+        } else {
+          return '';
+        }
+      },
+      formatMoney: function (value) {
+        return numberFormatter("#,##0.00", value, "R$");
+      },
+      ...handlebarsHelpers
+    },
   })
 )
+
 
 app.use("/", routes)
 

@@ -9,8 +9,7 @@
                 <div class="p-2">
                     <form action="/admin/schedules/search">
                         <div class="input-group mt-3">
-                            <input type="text" class="form-control" data-mask="00/00/0000" placeholder="00/00/00"
-                                name="term">
+                            <input type="date" class="form-control" name="term">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="submit">
                                     <i class="ri-search-line"></i>
@@ -47,7 +46,7 @@
                     {{#each schedules}}
                     <tr>
                         <td class="pt-4 text-uppercase">{{id}}</td>
-                        <td class="pt-4 text-uppercase">{{date}}</td>
+                        <td class="pt-4 text-uppercase">{{formatDate date}}</td>
                         <td class="pt-4 text-uppercase">{{hours}}</td>
                         <td class="pt-4 text-uppercase">{{user}}</td>
                         <td class="pt-4 text-uppercase">{{admin}}</td>

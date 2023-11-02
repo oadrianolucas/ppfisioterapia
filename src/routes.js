@@ -19,10 +19,13 @@ router.get("/", (req, res) => {
 
 router.post("/create/file/finance", loginMiddleware, filesController.createFileFinance)
 router.post("/delete/file/finance", loginMiddleware, filesController.deleteFileFinance)
+router.get("/create/all/finance-excel", loginMiddleware, financesController.createExcel)
+router.post("/create/finance/record", loginMiddleware, financesController.createExcelDate)
 
 router.get("/admin/finances", loginMiddleware, financesController.allFinances)
 router.post("/create/finance", loginMiddleware, financesController.createFinance)
 router.post("/delete/finance", loginMiddleware, financesController.deleteFinance)
+router.get("/admin/finances/search", loginMiddleware, financesController.searchFinance)
 
 router.get("/privacy-policy", (req, res) => {
   res.render("privacyPolicy")
@@ -38,6 +41,7 @@ router.get("/admin/user/view/:id", loginMiddleware, usersController.GetViewUser)
 // Rotas de listagem e busca de usuários
 router.get("/admin/users", loginMiddleware, usersController.GetFindAllUsers)
 router.get("/admin/users/search", loginMiddleware, usersController.GetSearchUsers)
+
 
 //Rotas de serviços
 router.get("/admin/services", filter, servicesController.GetFindAllServices)

@@ -1,7 +1,7 @@
 const db = require("../database/db")
 const Finance = db.Sequelize.define("finances", {
   type: {
-    type: db.sequelize.STRING,
+    type: db.sequelize.INTEGER,
   },
   date: {
     type: db.sequelize.STRING,

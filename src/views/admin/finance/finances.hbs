@@ -11,8 +11,7 @@
                 <div class="p-2">
                     <form action="/admin/finances/search">
                         <div class="input-group mt-3">
-                            <input type="text" class="form-control" data-mask="00/00/0000" placeholder="00/00/00"
-                                name="term">
+                            <input class="form-control" type="date"  name="term">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="submit">
                                     <i class="ri-search-line"></i>
@@ -28,8 +27,54 @@
                 <div class="col-6 col-sm-6">
                     <h1>Controle de caixa</h1>
                 </div>
-                <div class="col-6 col-sm-6 text-right">
-                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                <div class="col-3 col-sm-3">
+                     <button type="button" class="btn btn-sm btn-primary btn-block" data-toggle="modal"
+                        data-target="#exampleRelatorio">
+                        <i class="ri-file-3-fill"></i> Relatório
+                    </button>
+                    <div class="modal fade" id="exampleRelatorio" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleRelatorioLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Gerar relatótio:</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form method="POST" action="/create/finance/record">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Data Inicíal: </label>
+                                                    <input class="form-control" type="date" name="datastart" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Data Final: </label>
+                                                    <input class="form-control" type="date" name="datafinal" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            <button type="submit" class="btn btn-primary btn-block">Gerar relatório</button>
+                                        </form>
+                                        <hr>
+                                        <form method="GET" action="/create/all/finance-excel">
+                                            <button type="submit" class="btn btn-primary btn-block">Relatório geral</button>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Fechar</button>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 col-sm-3">
+                    <button type="button" class="btn btn-sm btn-primary btn-block" data-toggle="modal"
                         data-target="#exampleModal">
                         <i class="ri-user-add-line"></i> Adicionar
                     </button>
@@ -44,24 +89,23 @@
                                     </button>
                                 </div>
                                 <form method="POST" action="/create/finance">
-                                    <div class="modal-body text-right">
+                                    <div class="modal-body">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Valor (R$)</label>
+                                                    <label>Valor (R$):</label>
                                                     <input class="form-control" type="text" name="value" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Data</label>
-                                                    <input class="form-control" type="text" name="date"
-                                                        placeholder="00/00/00" data-mask="00/00/00" required>
+                                                    <label>Data: </label>
+                                                    <input class="form-control" type="date" name="date" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Entrada / Saída</label>
+                                                    <label>Entrada / Saída: </label>
                                                     <select class="form-control" name="type">
                                                         <option value="1">Entrada</option>
                                                         <option value="2">Saída</option>
@@ -70,7 +114,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Tipo</label>
+                                                    <label>Tipo: </label>
                                                     <select class="form-control" name="category">
                                                         <option value="1">Dinheiro</option>
                                                         <option value="2">Pix</option>
@@ -81,7 +125,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="service">Id Consulta</label>
+                                                    <label for="service">Id Consulta: </label>
                                                     <select class="form-control selectpicker text-uppercase"
                                                         data-live-search="true" name="appointmentId">
                                                         <option>...</option>
@@ -95,7 +139,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Descrição</label>
+                                                    <label>Descrição: </label>
                                                     <input class="form-control" type="text" name="description">
                                                 </div>
                                             </div>
@@ -112,24 +156,35 @@
                     </div>
                 </div>
             </div>
+            <div class="row mt-3">
+                <div class="col-md-4 ">
+                    <div class="alert alert-success w-100">Total Entrada: R$ {{formatMoney totalType1 }}</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="alert alert-danger w-100">Total Saída: R$ {{formatMoney totalType2 }}</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="alert alert-dark w-100">Relação: R$ {{#if (lt formatMoney difference 0)}} {{/if}}{{formatMoney difference}}</div>
+                </div>
+            </div>
             <hr>
             <table class="table table-borderless">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Data</th>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Valor</th>
                         <th scope="col">Entrada/Saída</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Tipo</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{#each finances}}
                     <tr>
                         <td class="pt-4 text-uppercase">{{id}}</td>
-                        <td class="pt-4 text-uppercase">{{date}}</td>
+                        <td class="pt-4 text-uppercase">{{formatDate date}}</td>
                         <td class="pt-4 text-uppercase"><span id="pagamento">{{type}}</span></td>
-                        <td class="pt-4 text-uppercase">R$ {{value}}</td>
+                        <td class="pt-4 text-uppercase">R$ {{formatMoney value}}</td>
                         <td class="pt-4 text-uppercase">{{category}}</td>
                         <td class="pt-3 text-uppercase">
                             <button class="btn btn-primary btn-sm d-block" data-toggle="modal"
@@ -219,7 +274,7 @@
         </div>
         </td>
         <td>
-            <div class="text-right">
+            <div>
                 <div class="btn-group">
                     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
@@ -259,7 +314,7 @@
             1: "Dinheiro",
             2: "Pix",
             3: "Cheque",
-            4: "Cartão de Crédito/Débito"
+            4: "💳 Crédito/Débito"
         };
 
         const mapeamentoEntradaSaida = {
@@ -268,13 +323,13 @@
         };
 
         const traduzirValores = () => {
-            const cellsTipo = document.querySelectorAll("table tbody tr td:nth-child(3)");
+            const cellsTipo = document.querySelectorAll("table tbody tr td:nth-child(5)");
             cellsTipo.forEach(cell => {
                 const valor = parseInt(cell.textContent.trim());
                 cell.textContent = mapeamentoTipo[valor] || "";
             });
 
-            const cellsEntradaSaida = document.querySelectorAll("table tbody tr td:nth-child(5)");
+            const cellsEntradaSaida = document.querySelectorAll("table tbody tr td:nth-child(3)");
             cellsEntradaSaida.forEach(cell => {
                 const valor = parseInt(cell.textContent.trim());
                 cell.textContent = mapeamentoEntradaSaida[valor] || "";

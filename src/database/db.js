@@ -1,12 +1,12 @@
 const sequelize = require("sequelize")
 const Sequelize = new sequelize(
-  "database",
-  "user",
-  "password",
+  "ppfisioterapia",
+  "root",
+  "root",
   {
     host: "localhost",
     dialect: "mysql",
-    port: 3306,
+    port: 3308,
   }
 )
 
