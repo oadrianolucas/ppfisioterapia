@@ -105,6 +105,7 @@ const AdminsController = {
             name: admin.name,
             email: email.email,
             filter: admin.filter,
+            id: admin.id,
           }
           res.redirect("/admin/schedules")
         } else {

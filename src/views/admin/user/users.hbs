@@ -46,6 +46,91 @@
                     <tr>
                         <td class="pt-4 text-uppercase">{{name}}</td>
                         <td class="pt-4 text-uppercase">{{phone}}</td>
+                        <td class="pt-3"> <button class="btn btn-primary btn-sm d-block" data-toggle="modal"
+                                data-target="#example{{id}}Modal">
+                                <i class="ri-file-line"></i>
+                            </button>
+                            <div class="modal fade" id="example{{id}}Modal" tabindex="-1" role="dialog"
+                                aria-labelledby="example{{id}}ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Lançar arquivo:</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form method="POST" action="/create/file" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <input type="hidden" name="userId" value="{{id}}">
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <input class="form-control" type="file" name="filename">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button type="submit" class="btn btn-primary">Salvar</button>
+                                                    </div>
+                                                </div>
+                                        </form>
+                                        <hr>
+                                        {{#if files}}
+                                        <h5>Comprovantes:</h5>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Nome</th>
+                                                    <th scope="col">Ações</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each files}}
+                                                <tr>
+                                                    <td class="pt-4">{{name}}</td>
+                                                    <td>
+                                                        <div class="text-right">
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn dropdown-toggle"
+                                                                    data-toggle="dropdown" aria-haspopup="true"
+                                                                    aria-expanded="false">
+                                                                    <i class="ri-settings-4-fill"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <span class="dropdown-item disabled">Ações</span>
+                                                                    <a href="/assets/files/receipts/{{name}}"
+                                                                        target="_blank" class="dropdown-item"
+                                                                        role="button">
+                                                                        Visualizar
+                                                                    </a>
+                                                                    <form class="p-0 m-0" action="/delete/file"
+                                                                        method="POST">
+                                                                        <input type="hidden" name="fileId"
+                                                                            value="{{id}}">
+                                                                        <button type="submit"
+                                                                            class="dropdown-item text-danger"
+                                                                            onclick="return confirm('Tem certeza que deseja deletar?');">
+                                                                            Deletar
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                {{/each}}
+                                            </tbody>
+                                        </table>
+
+                                        {{else}}
+                                        <p class="text-danger mt-2">Nenhum arquivo encontrado.</p>
+                                        {{/if}}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Fechar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
                         <td>
                             <div class="text-right">
                                 <div class="btn-group">

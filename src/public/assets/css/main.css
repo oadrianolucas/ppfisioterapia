@@ -23,6 +23,26 @@ h1 {
   padding: 3px;
 }
 
+.legionfy{
+  width: 90px;
+}
+
+.nav-link-primary{
+  color: #ffffff;
+  text-decoration: none;
+  padding: 12px;
+  font-weight: 600;
+  border-radius: 7px;
+  background-color: #e81b85;
+}
+
+.nav-link-primary:hover{
+  color: #ffffff;
+  transition: 0.3s;
+  text-decoration: none;
+  background-color: #cb1070;
+}
+
 .structure {
   font-family: "Montserrat", sans-serif;
   font-weight: 500;

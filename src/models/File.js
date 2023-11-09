@@ -6,7 +6,7 @@ const File = db.Sequelize.define("files", {
   location: {
     type: db.sequelize.STRING,
   },
-  financeId:{
+  userId:{
     type: db.sequelize.INTEGER
   }
 })

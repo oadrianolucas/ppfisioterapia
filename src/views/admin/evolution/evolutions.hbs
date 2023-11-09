@@ -1,0 +1,145 @@
+{{>_nav}}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    Buscar
+                </div>
+                <div class="p-2">
+                    <form action="/admin/evolutions/search">
+                        <div class="input-group mt-3">
+                            <input type="text" class="form-control" placeholder="Nome" name="term">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="submit">
+                                    <i class="ri-search-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row pt-3">
+                <div class="col-9 col-sm-9">
+                    <h1>Evoluções</h1>
+                </div>
+                <div class="col-3 col-sm-3 text-right">
+                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addEvolution">
+                        <i class="ri-arrow-right-up-fill"></i> Evolução
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <table class="table table-borderless table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col"># </th>
+                        <th scope="col">Data: </th>
+                        <th scope="col">Paciente: </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each evolution}}
+                    <tr>
+                        <td class="pt-4 text-uppercase">{{id}}</td>
+                        <td class="pt-4 text-uppercase">{{formatDate date}}</td>
+                        <td class="pt-4 text-uppercase">{{userId}}
+                        </td>
+                        <td>
+                            <div class="text-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <i class="ri-settings-4-fill"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <span class="dropdown-item disabled">Ações</span>
+                                        <a href="/admin/view/evolution/{{id}}" class="dropdown-item" role="button">
+                                            Visualizar
+                                        </a>
+                                        <form class="p-0 m-0" action="/delete/evolution" method="POST">
+                                            <input type="hidden" name="id" value="{{id}}">
+                                            <button type="submit" class="dropdown-item text-danger"
+                                                onclick="return confirm('Tem certeza que deseja deletar?');">
+                                                Deletar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {{else}}
+                    <div class="alert alert-danger w-100" role="alert">
+                        Nenhum cadastro encontrado.
+                    </div>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{>_footer}}
+</div>
+
+<div class="modal fade" id="addEvolution" tabindex="-1" aria-labelledby="addEvolution" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSchedule">Adicionar Evolução:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/create/evolution">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Id Agenda:</label>
+                                <select class="form-control selectpicker text-uppercase" data-live-search="true"
+                                    name="userId">
+                                    <option>...</option>
+                                    {{#each schedule}}
+                                    <option value="{{id}}">{{id}}</option>
+                                    {{else}}
+                                    <option>Nenhum cadastro encontrado.</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pa">Estado Clinicio:</label>
+                                <input class="form-control" type="text" name="pa" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="painUser">Grau de dor:</label>
+                                <input class="form-control" type="text" name="painUser" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Conduta:</label>
+                                <input class="form-control" type="text" name="conduct" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Evolução:</label>
+                        <textarea class="form-control" name="evolution"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-danger">Limpar</button>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

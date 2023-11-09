@@ -49,7 +49,7 @@ const SchedulesController = {
         adminId: adminId,
         serviceId: serviceId,
       })
-      req.flash("success_msg", "Consulta agendada com sucesso.")
+      req.flash("success_msg", "Avaliação agendada com sucesso.")
       res.redirect("/admin/schedules")
     } catch (error) {
       console.error("Erro ao criar agendamento:", error)

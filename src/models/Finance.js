@@ -18,6 +18,9 @@ const Finance = db.Sequelize.define("finances", {
   userId: {
     type: db.sequelize.INTEGER,
   },
+  adminId: {
+    type: db.sequelize.INTEGER,
+  },
 })
 
 module.exports = Finance

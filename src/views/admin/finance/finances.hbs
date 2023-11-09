@@ -11,7 +11,7 @@
                 <div class="p-2">
                     <form action="/admin/finances/search">
                         <div class="input-group mt-3">
-                            <input class="form-control" type="date"  name="term">
+                            <input class="form-control" type="date" name="term">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="submit">
                                     <i class="ri-search-line"></i>
@@ -28,7 +28,7 @@
                     <h1>Controle de caixa</h1>
                 </div>
                 <div class="col-3 col-sm-3">
-                     <button type="button" class="btn btn-sm btn-primary btn-block" data-toggle="modal"
+                    <button type="button" class="btn btn-sm btn-primary btn-block" data-toggle="modal"
                         data-target="#exampleRelatorio">
                         <i class="ri-file-3-fill"></i> Relatório
                     </button>
@@ -58,251 +58,163 @@
                                                 </div>
                                             </div>
                                         </div>
-                                            <button type="submit" class="btn btn-primary btn-block">Gerar relatório</button>
-                                        </form>
-                                        <hr>
-                                        <form method="GET" action="/create/all/finance-excel">
-                                            <button type="submit" class="btn btn-primary btn-block">Relatório geral</button>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Fechar</button>
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3 col-sm-3">
-                    <button type="button" class="btn btn-sm btn-primary btn-block" data-toggle="modal"
-                        data-target="#exampleModal">
-                        <i class="ri-user-add-line"></i> Adicionar
-                    </button>
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Cadastrar lançamento:</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form method="POST" action="/create/finance">
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Valor (R$):</label>
-                                                    <input class="form-control" type="text" name="value" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Data: </label>
-                                                    <input class="form-control" type="date" name="date" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Entrada / Saída: </label>
-                                                    <select class="form-control" name="type">
-                                                        <option value="1">Entrada</option>
-                                                        <option value="2">Saída</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Tipo: </label>
-                                                    <select class="form-control" name="category">
-                                                        <option value="1">Dinheiro</option>
-                                                        <option value="2">Pix</option>
-                                                        <option value="3">Cheque</option>
-                                                        <option value="4">Cartão crédito/débito</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="service">Cliente: </label>
-                                                    <select class="form-control selectpicker text-uppercase"
-                                                        data-live-search="true" name="userId">
-                                                        <option>...</option>
-                                                        {{#each users}}
-                                                        <option value="{{id}}" class="text-uppercase">{{name}}</option>
-                                                        {{else}}
-                                                        <option>Nenhum cadastro encontrado.</option>
-                                                        {{/each}}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Descrição: </label>
-                                                    <input class="form-control" type="text" name="description">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Fechar</button>
-                                        <button type="submit" class="btn btn-primary">Salvar</button>
-                                    </div>
+                                        <button type="submit" class="btn btn-primary btn-block">Gerar relatório</button>
+                                </form>
+                                <hr>
+                                <form method="GET" action="/create/all/finance-excel">
+                                    <button type="submit" class="btn btn-primary btn-block">Relatório geral</button>
                                 </form>
                             </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row mt-3">
-                <div class="col-md-4 ">
-                    <div class="alert alert-success w-100">Total Entrada: R$ {{formatMoney totalType1 }}</div>
-                </div>
-                <div class="col-md-4">
-                    <div class="alert alert-danger w-100">Total Saída: R$ {{formatMoney totalType2 }}</div>
-                </div>
-                <div class="col-md-4">
-                    <div class="alert alert-dark w-100">Relação: R$ {{#if (lt formatMoney difference 0)}} {{/if}}{{formatMoney difference}}</div>
-                </div>
-            </div>
-            <hr>
-            <table class="table table-borderless">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Entrada/Saída</th>
-                        <th scope="col">Valor</th>
-                        <th scope="col">Tipo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each finances}}
-                    <tr>
-                        <td class="pt-4 text-uppercase">{{id}}</td>
-                        <td class="pt-4 text-uppercase">{{formatDate date}}</td>
-                        <td class="pt-4 text-uppercase"><span id="pagamento">{{type}}</span></td>
-                        <td class="pt-4 text-uppercase">R$ {{formatMoney value}}</td>
-                        <td class="pt-4 text-uppercase">{{category}}</td>
-                        <td class="pt-3 text-uppercase">
-                            <button class="btn btn-primary btn-sm d-block" data-toggle="modal"
-                                data-target="#example{{id}}Modal">
-                                Comprovante
-                            </button>
-                            <div class="modal fade" id="example{{id}}Modal" tabindex="-1" role="dialog"
-                                aria-labelledby="example{{id}}ModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Lançar comprovante:</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
+            <div class="col-3 col-sm-3">
+                <button type="button" class="btn btn-sm btn-primary btn-block" data-toggle="modal"
+                    data-target="#exampleModal">
+                    <i class="ri-user-add-line"></i> Adicionar
+                </button>
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Cadastrar lançamento:</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form method="POST" action="/create/finance">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Valor (R$):</label>
+                                                <input class="form-control" type="text" name="value" required>
+                                            </div>
                                         </div>
-                                        <form method="POST" action="/create/file/finance" enctype="multipart/form-data">
-                                            <div class="modal-body">
-                                                <input type="hidden" name="financeId" value="{{id}}">
-                                                <div class="row">
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" type="file" name="filename">
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <button type="submit" class="btn btn-primary">Salvar</button>
-                                                    </div>
-                                                </div>
-                                        </form>
-                                        <hr>
-                                        {{#if files}}
-                                        <h5>Comprovantes:</h5>
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Nome</th>
-                                                    <th scope="col">Ações</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {{#each files}}
-                                                <tr>
-                                                    <td class="pt-4">{{name}}</td>
-                                                    <td>
-                                                        <div class="text-right">
-                                                            <div class="btn-group">
-                                                                <button type="button" class="btn dropdown-toggle"
-                                                                    data-toggle="dropdown" aria-haspopup="true"
-                                                                    aria-expanded="false">
-                                                                    <i class="ri-settings-4-fill"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <span class="dropdown-item disabled">Ações</span>
-                                                                    <a href="/assets/files/receipts/{{name}}"
-                                                                        target="_blank" class="dropdown-item"
-                                                                        role="button">
-                                                                        Visualizar
-                                                                    </a>
-                                                                    <form class="p-0 m-0" action="/delete/file/finance"
-                                                                        method="POST">
-                                                                        <input type="hidden" name="fileId"
-                                                                            value="{{id}}">
-                                                                        <button type="submit"
-                                                                            class="dropdown-item text-danger"
-                                                                            onclick="return confirm('Tem certeza que deseja deletar?');">
-                                                                            DELETAR
-                                                                        </button>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                {{/each}}
-                                            </tbody>
-                                        </table>
-
-                                        {{else}}
-                                        <p class="text-danger mt-2">Nenhum comprovante encontrado.</p>
-                                        {{/if}}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Fechar</button>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Data: </label>
+                                                <input class="form-control" type="date" name="date" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Entrada / Saída: </label>
+                                                <select class="form-control" name="type">
+                                                    <option value="1">Entrada</option>
+                                                    <option value="2">Saída</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Tipo: </label>
+                                                <select class="form-control" name="category">
+                                                    <option value="1">Dinheiro</option>
+                                                    <option value="2">Pix</option>
+                                                    <option value="3">Cheque</option>
+                                                    <option value="4">Cartão crédito/débito</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="service">Cliente: </label>
+                                                <select class="form-control selectpicker text-uppercase"
+                                                    data-live-search="true" name="userId">
+                                                    <option>...</option>
+                                                    {{#each users}}
+                                                    <option value="{{id}}" class="text-uppercase">{{name}}</option>
+                                                    {{else}}
+                                                    <option>Nenhum cadastro encontrado.</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Descrição: </label>
+                                                <input class="form-control" type="text" name="description">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-        </div>
-        </td>
-        <td>
-            <div>
-                <div class="btn-group">
-                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                        <i class="ri-settings-4-fill"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <span class="dropdown-item disabled">Ações</span>
-                        <a href="/admin/view/finance/{{id}}" class="dropdown-item" role="button">
-                            Visualizar
-                        </a>
-                        <form class="p-0 m-0" action="/delete/finance" method="POST">
-                            <input type="hidden" name="id" value="{{id}}">
-                            <button type="submit" class="dropdown-item text-danger"
-                                onclick="return confirm('Tem certeza que deseja deletar?');">
-                                Deletar
-                            </button>
-                        </form>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </td>
-        </tr>
-        {{else}}
-        <div class="alert alert-danger w-100" role="alert">
-            Nenhum cadastro encontrado.
         </div>
-        {{/each}}
-        </tbody>
+        <div class="row mt-3">
+            <div class="col-md-4 ">
+                <div class="alert alert-success w-100">Total Entrada: R$ {{formatMoney totalType1 }}</div>
+            </div>
+            <div class="col-md-4">
+                <div class="alert alert-danger w-100">Total Saída: R$ {{formatMoney totalType2 }}</div>
+            </div>
+            <div class="col-md-4">
+                <div class="alert alert-dark w-100">Relação: R$ {{#if (lt formatMoney difference 0)}}
+                    {{/if}}{{formatMoney difference}}</div>
+            </div>
+        </div>
+        <hr>
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Entrada/Saída</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Tipo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each finances}}
+                <tr>
+                    <td class="pt-4 text-uppercase">{{id}}</td>
+                    <td class="pt-4 text-uppercase">{{formatDate date}}</td>
+                    <td class="pt-4 text-uppercase"><span id="pagamento">{{type}}</span></td>
+                    <td class="pt-4 text-uppercase">R$ {{formatMoney value}}</td>
+                    <td class="pt-4 text-uppercase">{{category}}</td>
+                    <td>
+                        <div>
+                            <div class="btn-group">
+                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <i class="ri-settings-4-fill"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <span class="dropdown-item disabled">Ações</span>
+                                    <a href="/admin/view/finance/{{id}}" class="dropdown-item" role="button">
+                                        Visualizar/Editar
+                                    </a>
+                                    <form class="p-0 m-0" action="/delete/finance" method="POST">
+                                        <input type="hidden" name="id" value="{{id}}">
+                                        <button type="submit" class="dropdown-item text-danger"
+                                            onclick="return confirm('Tem certeza que deseja deletar?');">
+                                            Deletar
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {{else}}
+                <div class="alert alert-danger w-100" role="alert">
+                    Nenhum cadastro encontrado.
+                </div>
+                {{/each}}
+            </tbody>
         </table>
     </div>
 </div>

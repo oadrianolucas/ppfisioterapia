@@ -1,14 +1,28 @@
 const sequelize = require("sequelize");
 const User = require("../models/User");
 const Address = require("../models/Address");
+const File = require("../models/File");
 const REDIRECT_USERS = "/admin/users";
 
 const UsersController = {
   async GetFindAllUsers(req, res) {
     try {
-      const users = await User.findAll();
+      const users = await User.findAll({
+        raw: true
+      });
+      const usersPromises = users.map(async (user) => {
+        const files = await File.findAll({
+          where: { userId: user.id },
+          raw: true,
+        });
+        return {
+          ...user,
+          files: files,
+        };
+      });
+      const userData = await Promise.all(usersPromises);
       res.render("admin/user/users", {
-        user: users.map((user) => user.toJSON()),
+        user: userData,
       });
     } catch (error) {
       console.error("Error:", error);
@@ -23,7 +37,6 @@ const UsersController = {
       if (!user) {
         return res.redirect(REDIRECT_USERS);
       }
-
       const userData = user.toJSON();
       const address = await Address.findOne({ where: { userId: user.id } });
       if (address) {
@@ -80,8 +93,15 @@ const UsersController = {
 
   async PostDeleteUser(req, res) {
     try {
-      const id = req.body.id;
+      const { id } = req.body;
       if (id != undefined && !isNaN(id)) {
+        const files = await File.findAll({
+          where: { userId: id },
+        });
+        if (files.length > 0) {
+          req.flash("error_msg", "Não é possível excluir este cliente, pois há arquivos relacionados a ele.");
+          return res.redirect(REDIRECT_USERS);
+        }
         await User.destroy({
           where: { id: id },
         });

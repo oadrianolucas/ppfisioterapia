@@ -1,7 +1,6 @@
 const Appointment = require("../models/Appointment")
 const Schedule = require("../models/Schedule")
 const User = require("../models/User")
-const Evolution = require("../models/Evolution")
 
 const AppointmentsController = {
   async viewCreate(req, res) {
@@ -39,17 +38,6 @@ const AppointmentsController = {
           }
         }
       }
-
-      // Encontrar as evolutions relacionadas pelo appointmentId
-      const evolutions = await Evolution.findAll({
-        where: { appointmentId: appointment.id },
-      })
-      result.evolution = evolutions.map((evolution) =>
-        evolution.toJSON()
-      )
-
-      console.log(result)
-
       res.render("admin/appointment/view", {
         schedules: schedules.map((schedule) => schedule.toJSON()),
         appointment: result,
@@ -96,7 +84,6 @@ const AppointmentsController = {
           return result
         })
       )
-      console.log(appointmentsWithSchedulesAndUsers)
       res.render("admin/appointment/appointments", {
         appointments: appointmentsWithSchedulesAndUsers,
       })

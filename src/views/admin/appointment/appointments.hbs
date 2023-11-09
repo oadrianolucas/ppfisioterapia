@@ -23,7 +23,7 @@
         <div class="col-md-9">
             <div class="row pt-3">
                 <div class="col-6 col-sm-6">
-                    <h1>Consultas</h1>
+                    <h1>Avaliações</h1>
                 </div>
                 <div class="col-6 col-sm-6 text-right">
                     <a class="btn btn-sm btn-primary" href="/admin/create/appointment">
@@ -44,7 +44,7 @@
                     {{#each appointments}}
                     <tr>
                         <td class="pt-4 text-uppercase">{{schedule.id}}</td>
-                        <td class="pt-4 text-uppercase">{{schedule.date}}</td>
+                        <td class="pt-4 text-uppercase">{{formatDate schedule.date}}</td>
                         <td class="pt-4 text-uppercase">{{#if schedule.user}}{{schedule.user.name}}{{else}}N/A{{/if}}
                         </td>
                         <td>

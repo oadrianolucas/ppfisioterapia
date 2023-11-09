@@ -1,6 +1,5 @@
 const Finance = require("../models/Finance")
 const User = require("../models/User")
-const File = require("../models/File")
 const alert = require("../middlewares/alert")
 const REDIRECT_FINANCES = "/admin/finances"
 const sequelize = require("sequelize")
@@ -16,6 +15,8 @@ const categoryMapping = {
 const FinanceController = {
   async createFinance(req, res) {
     const { type, date, value, category, description, userId } = req.body
+    const admin = req.session.admin.id
+    console.log(admin)
     try {
       await Finance.create({
         type: type,
@@ -24,6 +25,7 @@ const FinanceController = {
         category: category,
         description: description,
         userId: userId,
+        adminId: admin
       })
       res.redirect(REDIRECT_FINANCES);
     } catch (error) {
@@ -33,31 +35,31 @@ const FinanceController = {
   },
   async allFinances(req, res) {
     try {
-      const finances = await Finance.findAll({
-        raw: true,
-      });
+      let finances
+      const filter = req.session.admin.filter
+      console.log(filter)
+        if (filter === 3) {
+          finances = await Finance.findAll({
+            raw: true,
+          });
+        } else {
+          finances = await Finance.findAll({
+            where: {
+              adminId: req.session.admin.id,
+            },
+            raw: true,
+          });
+        }
+     
       const type1Finances = finances.filter((finance) => finance.type === 1);
       const type2Finances = finances.filter((finance) => finance.type === 2);
       const totalType1 = type1Finances.reduce((total, finance) => total + finance.value, 0);
       const totalType2 = type2Finances.reduce((total, finance) => total + finance.value, 0);
       const difference = totalType1 - totalType2;
-
       const users = await User.findAll();
-      const financePromises = finances.map(async (finance) => {
-        const files = await File.findAll({
-          where: { financeId: finance.id },
-          raw: true,
-        });
-        return {
-          ...finance,
-          files: files,
-        };
-      });
-  
-      const financeData = await Promise.all(financePromises);
   
       res.render("admin/finance/finances", {
-        finances: financeData,
+        finances: finances,
         users: users.map((user) => user.toJSON()),
         totalType1: totalType1,
         totalType2: totalType2,
@@ -70,28 +72,13 @@ const FinanceController = {
   },  
   async deleteFinance(req, res) {
     const { id } = req.body;
-
     try {
       const finance = await Finance.findByPk(id);
-
       if (!finance) {
         req.flash("error_msg", alert.FINANCE_NOT_FOUND);
         return res.redirect(REDIRECT_FINANCES);
       }
-
-      // Verifique se existem arquivos relacionados a esta entrada financeira
-      const files = await File.findAll({
-        where: { financeId: finance.id },
-      });
-
-      if (files.length > 0) {
-        // Se houver arquivos relacionados, envie uma mensagem de erro e não exclua a entrada financeira
-        req.flash("error_msg", "Não é possível excluir esta entrada financeira, pois há arquivos relacionados a ela.");
-        return res.redirect(REDIRECT_FINANCES);
-      }
-
-      // Se não houver arquivos relacionados, exclua a entrada financeira
-      await finance.destroy();
+      await finance.destroy()
       res.redirect(REDIRECT_FINANCES);
     } catch (error) {
       req.flash("error_msg", alert.FINANCE_ERROR_DELETE);
@@ -142,20 +129,9 @@ const FinanceController = {
       });
 
       const users = await User.findAll();
-      const financePromises = finances.map(async (finance) => {
-        const files = await File.findAll({
-          where: { financeId: finance.id },
-          raw: true,
-        });
-        return {
-          ...finance,
-          files: files,
-        };
-      });
-
-      const financeData = await Promise.all(financePromises);
+    
       res.render("admin/finance/finances", {
-        finances: financeData,
+        finances: finances,
         users: users.map((user) => user.toJSON()),
       });
     } catch (error) {
@@ -168,39 +144,50 @@ const FinanceController = {
         raw: true,
       });
 
+      const type1Finances = finances.filter((finance) => finance.type === 1);
+      const type2Finances = finances.filter((finance) => finance.type === 2);
+      const totalType1 = type1Finances.reduce((total, finance) => total + finance.value, 0);
+      const totalType2 = type2Finances.reduce((total, finance) => total + finance.value, 0);
+      const difference = totalType1 - totalType2;
+  
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet('Relatório Financeiro');
-
-      worksheet.addRow(['ID', 'Tipo', 'Data', 'Valor', 'Categoria', 'Descrição', 'ID do Agendamento']);
-
-      finances.forEach((finance) => {
+  
+      worksheet.addRow(['Nome', 'CPF', 'Tipo', 'Data', 'Valor', 'Categoria', 'Descrição', 'Total Entrada', 'Total Saída', "Relação"]); // Substitua 'ID' por 'CPF'
+  
+      for (const finance of finances) {
         const tipo = finance.type === 1 ? 'Saída' : 'Entrada';
         const categoria = categoryMapping[finance.category] || 'Desconhecida';
-
+        const user = await User.findOne({ where: { id: finance.userId } });
+  
         worksheet.addRow([
-          finance.id,
+          user ? user.name.toUpperCase() : 'Desconhecido',
+          user ? user.cpf : 'Desconhecido',
           tipo,
           finance.date,
           finance.value,
           categoria,
           finance.description,
-          finance.userId,
+          totalType1,
+          totalType2,
+          difference
         ]);
-      });
-
+      }
+  
       const excelFileName = 'relatorio_financeiro_total.xlsx';
       const excelBuffer = await workbook.xlsx.writeBuffer();
-
+  
       res.setHeader('Content-Disposition', `attachment; filename=${excelFileName}`);
       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-
+  
       res.send(excelBuffer);
     } catch (error) {
-      console.error(error)
+      console.error(error);
       req.flash('error_msg', 'Erro ao criar o arquivo Excel');
       res.redirect(REDIRECT_FINANCES);
     }
   },
+
   async createExcelDate(req, res) {
     try {
       const { datastart, datafinal } = req.body;
@@ -216,23 +203,23 @@ const FinanceController = {
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet('Relatório Financeiro');
 
-      worksheet.addRow(['ID', 'Tipo', 'Data', 'Valor', 'Categoria', 'Descrição', 'ID do Agendamento']);
+      worksheet.addRow(['Nome', 'CPF', 'Tipo', 'Data', 'Valor', 'Categoria', 'Descrição']);
 
-      finances.forEach((finance) => {
+      for (const finance of finances) {
         const tipo = finance.type === 1 ? 'Saída' : 'Entrada';
         const categoria = categoryMapping[finance.category] || 'Desconhecida';
+        const user = await User.findOne({ where: { id: finance.userId } });
 
         worksheet.addRow([
-          finance.id,
+          user ? user.name.toUpperCase() : 'Desconhecido',
+          user ? user.cpf : 'Desconhecido',
           tipo,
           finance.date,
           finance.value,
           categoria,
           finance.description,
-          finance.userId,
         ]);
-      });
-
+      }
       const excelFileName = 'relatorio_financeiro.xlsx';
       const excelBuffer = await workbook.xlsx.writeBuffer();
 

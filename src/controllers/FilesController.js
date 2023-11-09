@@ -1,18 +1,15 @@
 const File = require("../models/File");
 const multer = require('multer');
-const pdf2pic = require("pdf2pic");
 const path = require("path");
-const fs = require("fs/promises"); // Módulo fs com suporte a promessas
+const fs = require("fs/promises"); 
 
-// Configure o armazenamento de arquivos
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "src/public/assets/files/receipts"); // Pasta de destino para os arquivos enviados
+    callback(null, "src/public/assets/files/receipts"); 
   },
   filename: (req, file, callback) => {
-    // Gere um nome de arquivo único para evitar substituições
     const ext = path.extname(file.originalname);
-    callback(null, `comprovante_${Date.now()}${ext}`);
+    callback(null, `arquivo_${Date.now()}${ext}`);
   },
 });
 
@@ -29,21 +26,21 @@ const upload = multer({
 });
 
 const FileController = {
-  async createFileFinance(req, res) {
+  async createFile(req, res) {
     upload.single('filename')(req, res, async (err) => {
       if (err) {
         console.error("Erro ao fazer o upload do arquivo:", err);
         res.status(500).send("Erro ao fazer o upload do arquivo.");
       } else {
-        const { financeId } = req.body;
+        const { userId } = req.body;
         try {
           const { filename, path } = req.file;
           await File.create({
             name: filename,
             location: path,
-            financeId: financeId,
+            userId: userId,
           });
-          res.redirect("/admin/finances");
+          res.redirect("/admin/users");
         } catch (error) {
           console.error("Erro ao criar arquivo:", error);
           res.status(500).send("Erro ao criar arquivo.");
@@ -52,7 +49,7 @@ const FileController = {
     });
   },
 
-  async deleteFileFinance(req, res) {
+  async deleteFile(req, res) {
     const { fileId } = req.body;
     try {
       const fileToDelete = await File.findByPk(fileId);
@@ -65,7 +62,7 @@ const FileController = {
           id: fileId,
         },
       });
-      res.redirect("/admin/finances");
+      res.redirect("/admin/users");
     } catch (error) {
       console.error("Erro ao excluir arquivo:", error);
       res.status(500).send("Erro ao excluir arquivo.");

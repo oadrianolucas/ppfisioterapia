@@ -1,8 +1,5 @@
 const db = require("../database/db")
 const Evolution = db.Sequelize.define("evolutions", {
-  date: {
-    type: db.sequelize.STRING,
-  },
   pa: {
     type: db.sequelize.STRING,
   },
@@ -15,7 +12,7 @@ const Evolution = db.Sequelize.define("evolutions", {
   evolution: {
     type: db.sequelize.STRING,
   },
-  appointmentId: {
+  scheduleId: {
     type: db.sequelize.INTEGER,
   },
 })
