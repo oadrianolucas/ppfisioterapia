@@ -3,33 +3,36 @@ const bcrypt = require("bcryptjs")
 const alert = require("../middlewares/alert")
 
 const AdminsController = {
-  async GetFindAllAdmins(req, res) {
+  async allAdmins(req, res) {
     try {
       const admins = await Admin.findAll()
       res.render("admin/settings/admins", {
         admin: admins.map((admin) => admin.toJSON()),
       })
     } catch (error) {
-      res.send("Erro ao buscar administradores: " + error)
+      req.flash("error_msg", "Erro ao buscar administradores: " + error.message)
+      res.redirect("/admin/admins/list")
     }
   },
 
-  async GetUpdateAdmin(req, res) {
+  async updateAdmin(req, res) {
     const id = req.params.id
     try {
       const admin = await Admin.findByPk(id)
       if (admin) {
         res.render("admin/settings/update", { admin: admin.toJSON() })
       } else {
+        req.flash("error_msg", "Administrador não encontrado.")
         res.redirect("/admin/settings")
       }
     } catch (error) {
-      res.send("Erro ao buscar administrador: " + error)
+      req.flash("error_msg", "Erro ao buscar administrador: " + error.message)
+      res.redirect("/admin/settings")
     }
   },
 
-  async PostCreateAdmin(req, res) {
-    const { name, email, filter, password } = req.body
+  async createAdmin(req, res) {
+    const { name, email, filter, password, coffito } = req.body
     const salt = bcrypt.genSaltSync(10)
     const hash = bcrypt.hashSync(password, salt)
     try {
@@ -41,17 +44,20 @@ const AdminsController = {
       }
       await Admin.create({
         name: name ? name.toLowerCase() : "",
+        coffito: coffito,
         email: email,
         password: hash,
         filter: filter,
       })
+      req.flash("success_msg", "Administrador criado com sucesso.")
       res.redirect("/admin/admins/list")
     } catch (error) {
-      res.send("Erro ao criar administrador: " + error)
+      req.flash("error_msg", "Erro ao criar administrador: " + error.message)
+      res.redirect("/admin/admins/list")
     }
   },
 
-  async PostDeleteAdmin(req, res) {
+  async deleteAdmin(req, res) {
     const id = req.body.id
     if (!isNaN(id)) {
       try {
@@ -60,24 +66,30 @@ const AdminsController = {
             id: id,
           },
         })
+        req.flash("success_msg", "Administrador excluído com sucesso.")
         res.redirect("/admin/admins/list")
       } catch (error) {
-        res.send("Erro ao deletar administrador: " + error)
+        req.flash(
+          "error_msg",
+          "Erro ao deletar administrador: " + error.message
+        )
+        res.redirect("/admin/admins/list")
       }
     } else {
+      req.flash("error_msg", "ID de administrador inválido.")
       res.redirect("/admin/admins/list")
     }
   },
 
-  async PostUpdateAdmin(req, res) {
-    const { id, name, login, email, password, filter } = req.body
+  async editAdmin(req, res) {
+    const { id, name, email, password, filter, coffito } = req.body
     const salt = bcrypt.genSaltSync(10)
     const hash = bcrypt.hashSync(password, salt)
     try {
       await Admin.update(
         {
           name: name.toLowerCase(),
-          login: login,
+          coffito: coffito,
           email: email,
           password: hash,
           filter: filter,
@@ -88,13 +100,18 @@ const AdminsController = {
           },
         }
       )
-      res.redirect("/admin/settings")
+      req.flash("success_msg", "Administrador atualizado com sucesso.")
+      res.redirect("/admin/admins/list")
     } catch (error) {
-      res.send("Erro ao atualizar administrador: " + error)
+      req.flash(
+        "error_msg",
+        "Erro ao atualizar administrador: " + error.message
+      )
+      res.redirect("/admin/admins/list")
     }
   },
 
-  async PostLoginAdmin(req, res) {
+  async login(req, res) {
     const { email, password } = req.body
     try {
       const admin = await Admin.findOne({ where: { email: email } })
@@ -110,20 +127,21 @@ const AdminsController = {
           res.redirect("/admin/schedules")
         } else {
           req.flash("error_msg", alert.INVALID_PASSWORD)
-          res.redirect("/")
+          res.redirect("/admin")
         }
       } else {
         req.flash("error_msg", alert.INVALID_LOGIN)
-        res.redirect("/")
+        res.redirect("/admin")
       }
     } catch (error) {
-      res.send("Erro ao fazer login: " + error)
+      req.flash("error_msg", "Erro ao fazer login: " + error.message)
+      res.redirect("/admin")
     }
   },
 
-  PostLogoutAdmin(req, res) {
+  logout(req, res) {
     req.session.admin = undefined
-    res.redirect("/")
+    res.redirect("/admin")
   },
 }
 

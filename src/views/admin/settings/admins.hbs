@@ -37,7 +37,7 @@
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <span class="dropdown-item disabled">Ações</span>
-                                        <a href="/admin/user/update/{{id}}" class="dropdown-item" role="button">
+                                        <a href="/admin/edit/{{id}}" class="dropdown-item" role="button">
                                             Editar
                                         </a>
                                         <form class="p-0 m-0" action="/delete/admin" method="POST">
@@ -81,11 +81,15 @@
                         <input class="form-control" type="text" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="name">E-mail:</label>
+                        <label for="email">E-mail:</label>
                         <input class="form-control" type="email" name="email" required>
                     </div>
+                     <div class="form-group">
+                        <label for="coffito">Coffito:</label>
+                        <input class="form-control" type="text" name="coffito" required>
+                    </div>
                     <div class="form-group">
-                        <label for="name">Senha:</label>
+                        <label for="password">Senha:</label>
                         <input class="form-control" type="password" name="password" required>
                     </div>
                     <div class="form-group">

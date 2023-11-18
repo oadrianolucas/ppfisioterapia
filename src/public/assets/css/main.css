@@ -6,6 +6,11 @@ h1 {
   color: #1d1d1d;
 }
 
+.logo-index {
+  width: 180px;
+  margin: 16px;
+}
+
 .title-db {
   color: #ffffff;
   font-size: 16px;
@@ -23,11 +28,11 @@ h1 {
   padding: 3px;
 }
 
-.legionfy{
+.legionfy {
   width: 90px;
 }
 
-.nav-link-primary{
+.nav-link-primary {
   color: #ffffff;
   text-decoration: none;
   padding: 12px;
@@ -36,7 +41,7 @@ h1 {
   background-color: #e81b85;
 }
 
-.nav-link-primary:hover{
+.nav-link-primary:hover {
   color: #ffffff;
   transition: 0.3s;
   text-decoration: none;

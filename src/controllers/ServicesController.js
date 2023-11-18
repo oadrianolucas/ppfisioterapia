@@ -1,7 +1,7 @@
 const Service = require("../models/Service")
 
 const ServiceController = {
-  async GetFindAllServices(req, res) {
+  async allService(req, res) {
     try {
       const services = await Service.findAll()
       res.render("admin/service/services", {
@@ -13,11 +13,10 @@ const ServiceController = {
     }
   },
 
-  async PostCreateService(req, res) {
+  async createService(req, res) {
     const { name } = req.body
 
     try {
-      // Verifica se o serviço já existe pelo nome
       const existingService = await Service.findOne({
         where: { name: name.toLowerCase() },
       })
@@ -38,7 +37,8 @@ const ServiceController = {
       res.redirect("/admin/services")
     }
   },
-  async PostDeleteService(req, res) {
+
+  async deleteService(req, res) {
     const serviceId = req.body.id
     try {
       const service = await Service.findByPk(serviceId)
@@ -52,6 +52,45 @@ const ServiceController = {
     } catch (error) {
       console.error("Erro ao excluir serviço:", error)
       req.flash("error_msg", "Erro ao excluir serviço.")
+      res.redirect("/admin/services")
+    }
+  },
+
+  async updateService(req, res) {
+    const serviceId = req.params.id
+    try {
+      const service = await Service.findByPk(serviceId)
+      if (!service) {
+        req.flash("error_msg", "Serviço não encontrado.")
+        res.redirect("/admin/services")
+        return
+      }
+      res.render("admin/service/update", {
+        service: service.toJSON(),
+      })
+    } catch (error) {
+      console.error("Erro ao editar serviço:", error)
+      req.flash("error_msg", "Erro ao editar serviço.")
+      res.redirect("/admin/services")
+    }
+  },
+
+  async editService(req, res) {
+    const { name, id } = req.body
+    try {
+      const service = await Service.findByPk(id)
+      if (!service) {
+        req.flash("error_msg", "Serviço não encontrado.")
+        res.redirect("/admin/services")
+        return
+      }
+      service.name = name.toLowerCase()
+      await service.save()
+      req.flash("success_msg", "Serviço atualizado com sucesso.")
+      res.redirect("/admin/services")
+    } catch (error) {
+      console.error("Erro ao atualizar serviço:", error)
+      req.flash("error_msg", "Erro ao atualizar serviço.")
       res.redirect("/admin/services")
     }
   },

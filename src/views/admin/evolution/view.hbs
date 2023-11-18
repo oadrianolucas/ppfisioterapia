@@ -1,0 +1,85 @@
+{{>_nav}}
+<div class="container col-6m">
+  <div class="col-md-8 offset-md-2">
+    <div class="row mb-3">
+      <div class="col-md-9">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb p-2 pl-2">
+            <li class="breadcrumb-item"><a href="/admin/evolutions">Evoluções</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Visualizar</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="col-md-3 text-right">
+        <button class="btn d-block w-100 btn-primary" data-toggle="modal" data-target="#editEvolution">
+          <i class="ri-pencil-fill"></i> Editar
+        </button>
+      </div>
+    </div>
+    <div class="card-body border rounded">
+      <dl>
+        <dt>Dados</dt>
+        <dd class="text-uppercase"> Nome: {{evolution.user.name}}</dd>
+        <dd class="text-uppercase"> Nascimento: {{formatDate evolution.user.birth}}</dd>
+        <dd class="text-uppercase"> WhatsApp: {{evolution.user.phone}}</dd>
+        <dd class="text-uppercase"> Cpf: {{evolution.user.cpf}}</dd>
+        <hr>
+        <dd class="text-uppercase"> Data Agenda: {{formatDate evolution.schedule.date}}</dd>
+        <dd class="text-uppercase"> Horário Agenda: {{evolution.schedule.hours}}</dd>
+        <dd class="text-uppercase"> Estado Clínico: {{evolution.pa}}</dd>
+        <dd class="text-uppercase"> Grau de dor: {{evolution.painUser}}</dd>
+        <dd class="text-uppercase"> Conduta: {{evolution.conduct}}</dd>
+        <dt>Evolução</dt>
+        <dd class="text-uppercase">{{evolution.evolution}}</dd>
+      </dl>
+    </div>
+  </div>
+  {{>_footer}}
+</div>
+
+<div class="modal fade" id="editEvolution" tabindex="-1" aria-labelledby="editEvolution" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editEvolution">Editar Evolução:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="/update/evolution">
+        <div class="modal-body">
+          <div class="row">
+            <input type="hidden" value="{{evolution.schedule.id}}" name="scheduleId">
+            <input type="hidden" value="{{evolution.id}}" name="evolutionId">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="pa">Estado Clínico:</label>
+                <input class="form-control" type="text" name="pa" value="{{evolution.pa}}">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="painUser">Grau de dor:</label>
+                <input class="form-control" type="text" name="painUser" value="{{evolution.painUser}}" required>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="name">Conduta:</label>
+                <input class="form-control" type="text" name="conduct" value="{{evolution.conduct}}" required>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="name">Evolução:</label>
+            <textarea class="form-control" name="evolution">{{evolution.evolution}}</textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="reset" class="btn btn-danger">Limpar</button>
+          <button type="submit" class="btn btn-warning">Editar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

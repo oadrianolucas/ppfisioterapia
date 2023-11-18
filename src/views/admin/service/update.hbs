@@ -1,0 +1,22 @@
+{{>_nav}}
+<div class="container col-6m">
+    <div class="col-md-6 offset-md-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/admins/list">Configurações</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Editar serviço</li>
+            </ol>
+        </nav>
+        <div class="card-body border rounded">
+            <form action="/update/service" method="POST">
+                <input type="hidden" value="{{service.id}}" name="id">
+                <div class="form-group">
+                    <label for="name">Nome:</label>
+                    <input class="form-control" type="text" name="name" value="{{service.name}}" required>
+                </div>
+                <button class="btn btn-sm btn-warning" type="submit"><i class="ri-edit-line"></i> Editar</button>
+            </form>
+        </div>
+    </div>
+    {{>_footer}}
+</div>

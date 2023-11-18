@@ -57,7 +57,7 @@ const SchedulesController = {
     }
   },
 
-  async findSchedule(req, res) {
+  async allSchedules(req, res) {
     try {
       const schedules = await Schedule.findAll({})
       const scheduleList = []
@@ -109,7 +109,7 @@ const SchedulesController = {
     }
   },
 
-  async viewScheduleOne(req, res) {
+  async updateSchedelus(req, res) {
     const scheduleId = req.params.id
     try {
       const schedule = await Schedule.findByPk(scheduleId)
@@ -166,7 +166,6 @@ const SchedulesController = {
         return res.redirect("/admin/schedules")
       }
 
-      // Check for existing schedule with the same date and hours
       const existingSchedule = await Schedule.findOne({
         where: {
           date: date,
@@ -200,19 +199,15 @@ const SchedulesController = {
     try {
       const { term } = req.query
       const Op = sequelize.Op
-
       const termsFilter = {
         date: {
           [Op.like]: `%${term}%`,
         },
       }
-
       const schedules = await Schedule.findAll({
         where: termsFilter,
       })
-
       const scheduleList = []
-
       for (const schedule of schedules) {
         const scheduleData = schedule.toJSON()
         const userData = await getData(scheduleData.userId, User)

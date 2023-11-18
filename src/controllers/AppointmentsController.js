@@ -3,24 +3,26 @@ const Schedule = require("../models/Schedule")
 const User = require("../models/User")
 
 const AppointmentsController = {
-  async viewCreate(req, res) {
+  async allAppointments(req, res) {
     try {
       const [schedules] = await Promise.all([Schedule.findAll()])
       res.render("admin/appointment/create", {
         schedules: schedules.map((schedule) => schedule.toJSON()),
       })
     } catch (error) {
-      console.error("Erro ao buscar dados:", error)
+      req.flash("error_msg", "Erro ao buscar dados: " + error.message)
       res.status(500).send("Erro ao buscar dados.")
     }
   },
-  async viewAppointment(req, res) {
+
+  async appointment(req, res) {
     const id = req.params.id
     const [schedules] = await Promise.all([Schedule.findAll()])
     try {
       const appointment = await Appointment.findByPk(id)
 
       if (!appointment) {
+        req.flash("error_msg", "Agendamento não encontrado.")
         return res.status(404).send("Agendamento não encontrado.")
       }
 
@@ -43,7 +45,7 @@ const AppointmentsController = {
         appointment: result,
       })
     } catch (error) {
-      console.error("Erro ao buscar dados:", error)
+      req.flash("error_msg", "Erro ao buscar dados: " + error.message)
       res.status(500).send("Erro ao buscar dados.")
     }
   },
@@ -58,11 +60,14 @@ const AppointmentsController = {
         text: text,
         scheduleId: scheduleId,
       })
+      req.flash("success_msg", "Consulta criada com sucesso.")
       res.redirect("/admin/appointments")
     } catch (error) {
-      res.send("Erro ao criar consulta: " + error)
+      req.flash("error_msg", "Erro ao criar consulta: " + error.message)
+      res.redirect("/admin/appointments")
     }
   },
+
   async fistAppointment(req, res) {
     try {
       const appointments = await Appointment.findAll()
@@ -88,8 +93,30 @@ const AppointmentsController = {
         appointments: appointmentsWithSchedulesAndUsers,
       })
     } catch (error) {
-      console.error("Erro ao buscar dados:", error)
+      req.flash("error_msg", "Erro ao buscar dados: " + error.message)
       res.status(500).send("Erro ao buscar dados.")
+    }
+  },
+  async editAppointment(req, res) {
+    const { hd, hmp, hma, text, scheduleId, id } = req.body
+    try {
+      const appointment = await Appointment.findByPk(id)
+
+      if (!appointment) {
+        req.flash("error_msg", "Agendamento não encontrado.")
+        return res.status(404).send("Agendamento não encontrado.")
+      }
+      appointment.hd = hd
+      appointment.hmp = hmp
+      appointment.hma = hma
+      appointment.text = text
+      appointment.scheduleId = scheduleId
+      await appointment.save()
+      req.flash("success_msg", "Consulta editada com sucesso.")
+      res.redirect(`/admin/view/appointment/${id}`)
+    } catch (error) {
+      req.flash("error_msg", "Erro ao editar consulta.")
+      res.redirect(`/admin/view/appointment/${id}`)
     }
   },
 }

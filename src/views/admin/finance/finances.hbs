@@ -2,27 +2,7 @@
 {{>_msg}}
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-header">
-                    Buscar
-                </div>
-                <div class="p-2">
-                    <form action="/admin/finances/search">
-                        <div class="input-group mt-3">
-                            <input class="form-control" type="date" name="term">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="submit">
-                                    <i class="ri-search-line"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-9">
+        <div class="w-full">
             <div class="row pt-3">
                 <div class="col-6 col-sm-6">
                     <h1>Controle de caixa</h1>
@@ -153,6 +133,19 @@
                     </div>
                 </div>
             </div>
+            <div class="m-3">
+                <label>Pesquisar</label>
+                    <form action="/admin/finances/search">
+                        <div class="input-group">
+                            <input class="form-control" type="date" name="term">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="submit">
+                                    <i class="ri-search-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
         </div>
         <div class="row mt-3">
             <div class="col-md-4 ">
@@ -167,6 +160,7 @@
             </div>
         </div>
         <hr>
+        <div></div>
         <table class="table table-borderless">
             <thead>
                 <tr>
@@ -175,6 +169,7 @@
                     <th scope="col">Entrada/Saída</th>
                     <th scope="col">Valor</th>
                     <th scope="col">Tipo</th>
+                    <th scope="col">Descrição</th>
                 </tr>
             </thead>
             <tbody>
@@ -185,6 +180,7 @@
                     <td class="pt-4 text-uppercase"><span id="pagamento">{{type}}</span></td>
                     <td class="pt-4 text-uppercase">R$ {{formatMoney value}}</td>
                     <td class="pt-4 text-uppercase">{{category}}</td>
+                    <td class="pt-4 text-uppercase">{{description}}</td>
                     <td>
                         <div>
                             <div class="btn-group">
@@ -194,9 +190,6 @@
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <span class="dropdown-item disabled">Ações</span>
-                                    <a href="/admin/view/finance/{{id}}" class="dropdown-item" role="button">
-                                        Visualizar/Editar
-                                    </a>
                                     <form class="p-0 m-0" action="/delete/finance" method="POST">
                                         <input type="hidden" name="id" value="{{id}}">
                                         <button type="submit" class="dropdown-item text-danger"
@@ -216,10 +209,9 @@
                 {{/each}}
             </tbody>
         </table>
-    </div>
 </div>
 {{>_footer}}
-</div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const mapeamentoTipo = {

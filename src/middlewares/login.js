@@ -1,5 +1,5 @@
 const alert = require("../middlewares/alert")
-const login = ((req, res, next) => {
+const login = (req, res, next) => {
   const admin = req.session.admin
   if (admin) {
     next()
@@ -7,7 +7,6 @@ const login = ((req, res, next) => {
     req.flash("error_msg", alert.LOGIN_ERROR_LOGIN)
     res.redirect("/admin")
   }
-})
+}
 
 module.exports = login
- 

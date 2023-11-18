@@ -24,24 +24,23 @@ Schedule.hasMany(Appointment)
 User.hasMany(Finance)
 User.hasMany(File)
 
-
 async function create() {
-    try {
-      await Sequelize.sync({ force: true }) 
-      const salt = bcrypt.genSaltSync(10)
-      const hash = bcrypt.hashSync("password", salt)
-      await Admin.create({
-        name: "Admin",
-        email: "admin@ppfisioterapia.com",
-        password: hash,
-        filter: "3",
-      }); 
-      console.log("Tabelas criadas com sucesso!")
-    } catch (error) {
-      console.error("Erro ao criar tabelas:", error)
-    } finally {
-      await Sequelize.close()
-    }
+  try {
+    await Sequelize.sync({ force: true })
+    const salt = bcrypt.genSaltSync(10)
+    const hash = bcrypt.hashSync("password", salt)
+    await Admin.create({
+      name: "",
+      email: "",
+      password: hash,
+      filter: "",
+    })
+    console.log("Tabelas criadas com sucesso!")
+  } catch (error) {
+    console.error("Erro ao criar tabelas:", error)
+  } finally {
+    await Sequelize.close()
   }
-  
+}
+
 create()

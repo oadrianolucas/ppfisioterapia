@@ -3,33 +3,33 @@
     <div class="col-md-6 offset-md-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/admin/settings">Configurações</a></li>
+                <li class="breadcrumb-item"><a href="/admin/admins/list">Configurações</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Adicionar</li>
             </ol>
         </nav>
         <div class="card-body border rounded">
-            <h4>Editar usuário:</h4>
-            <form action="/update/user" method="POST">
-                <input type="hidden" value="{{user.id}}" name="id">
+            <h4>Editar admin:</h4>
+            <form action="/update/admin" method="POST">
+                <input type="hidden" value="{{admin.id}}" name="id">
                 <div class="form-group">
                     <label for="name">Nome:</label>
-                    <input class="form-control" type="text" name="name" value="{{user.name}}" required>
+                    <input class="form-control" type="text" name="name" value="{{admin.name}}" required>
                 </div>
                 <div class="form-group">
                     <label for="email">E-mail:</label>
-                    <input class="form-control" type="text" name="email" value="{{user.email}}" required>
+                    <input class="form-control" type="text" name="email" value="{{admin.email}}" required>
                 </div>
                 <div class="form-group">
-                    <label for="login">Login:</label>
-                    <input class="form-control" type="text" name="login" value="{{user.login}}" required>
+                    <label for="creffito">Creffito:</label>
+                    <input class="form-control" type="text" name="creffito" value="{{admin.creffito}}" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Senhas:</label>
-                    <input class="form-control" type="text" name="password" placeholder="******" required>
+                    <input class="form-control" type="text" name="password" required>
                 </div>
                 <div class="form-group">
                     <label for="admin">Filtro de sessão:</label>
-                    <select class="form-control" name="admin">
+                    <select class="form-control" name="filter">
                         <option value="3">Supremo</option>
                         <option value="2">Normal</option>
                         <option value="1">Simples</option>

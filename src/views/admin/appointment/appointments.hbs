@@ -7,9 +7,9 @@
                     Buscar
                 </div>
                 <div class="p-2">
-                    <form action="/admin/appointments/search">
+                    <form action="/admin/appointment/search" id="searchForm">
                         <div class="input-group mt-3">
-                            <input type="text" class="form-control" placeholder="Nome" name="term">
+                            <input type="text" class="form-control" placeholder="Nome" name="term" id="searchInput">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="submit">
                                     <i class="ri-search-line"></i>
@@ -82,3 +82,28 @@
     </div>
     {{>_footer}}
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const searchForm = document.getElementById("searchForm");
+    const searchInput = document.getElementById("searchInput");
+    const tableRows = document.querySelectorAll("tbody tr");
+
+    searchForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const term = searchInput.value.trim().toLowerCase();
+
+      tableRows.forEach(function(row) {
+        const nameCell = row.querySelectorAll("td")[2]; // Terceira coluna (índice 2)
+        if (nameCell) {
+          const name = nameCell.textContent.toLowerCase();
+          if (name.includes(term)) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        }
+      });
+    });
+  });
+</script>
